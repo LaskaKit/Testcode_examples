@@ -8,6 +8,10 @@
  *  
  *  Vzorovy kod ja zalozen na kodu od lilygo
  *  https://github.com/Xinyuan-LilyGO/LilyGo-EPD47
+ *
+ *  Online image convertor
+ *  https://lvgl.io/tools/imageconverter
+ *  Color format: Alpha only 16 shades
  */
 
 #include <Arduino.h>
