@@ -2,14 +2,14 @@
  *  Vzorovy priklad pouziti LilyGO T5 4.7"
  *  od https://laskarduino.cz
  *  
- *  ePaper vykreslni logo a 3 vety.
+ *  ePaper vykresli logo a 3 vety.
  *  
  *  (@)2021 laskarduino.cz
  *  
- *  Vzorovy kod ja zalozen na kodu od lilygo
+ *  Vzorovy kod ja zalozen na kodu od LilyGo
  *  https://github.com/Xinyuan-LilyGO/LilyGo-EPD47
  *
- *  Online image convertor
+ *  Pouzity Online image convertor
  *  https://lvgl.io/tools/imageconverter
  *  Color format: Alpha only 16 shades
  */
