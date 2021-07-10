@@ -5,7 +5,7 @@
 * Connection
 * A1 - 3.3V
 * A0 - 3.3V
-* EN_V - Nezapojen
+* EN_V - Not connected
 * IRQ - GPIO4
 * SI - 3.3V // GND = SPI; 3.3V = I2C
 * CS - GND
