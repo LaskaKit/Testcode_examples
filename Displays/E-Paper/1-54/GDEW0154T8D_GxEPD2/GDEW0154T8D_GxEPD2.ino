@@ -1,8 +1,8 @@
-/* Display test for Good Display GDEW01548TD
+/* Display test for Good Display GDEW0154T8D
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEW01548TD         
+ * Display: Good Display GDEW0154T8D         
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -22,8 +22,8 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_BW<GxEPD2_154_T8, GxEPD2_154_T8::HEIGHT> display(GxEPD2_154_T8(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW01548TD, GDEW0154T8  152x152, UC8151 (IL0373)
-//GxEPD2_BW<GxEPD2_154_M10, GxEPD2_154_M10::HEIGHT> display(GxEPD2_154_M10(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW01548TD, GDEW0154M10 152x152, UC8151D
+GxEPD2_BW<GxEPD2_154_T8, GxEPD2_154_T8::HEIGHT> display(GxEPD2_154_T8(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW0154T8D, GDEW0154T8  152x152, UC8151 (IL0373)
+//GxEPD2_BW<GxEPD2_154_M10, GxEPD2_154_M10::HEIGHT> display(GxEPD2_154_M10(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW0154T8D, GDEW0154M10 152x152, UC8151D
 
 void setup()
 {

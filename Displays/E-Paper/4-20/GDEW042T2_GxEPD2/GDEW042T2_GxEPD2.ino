@@ -23,7 +23,7 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> display(GxEPD2_420(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW042T2
+GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> display(GxEPD2_420(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW042T2, Waveshare 4.2 BW
 
 void setup()
 {
@@ -37,7 +37,12 @@ void setup()
   digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
   Serial.println("Display power ON");
   delay(1000);   
-  
+
+// turn on backlight
+  pinMode(26, OUTPUT);
+  digitalWrite(26, HIGH);   // turn the LED on (HIGH is the voltage level)
+  Serial.println("Backlight ON");
+
   display.init(); // inicializace
 
   // first update should be full refresh
