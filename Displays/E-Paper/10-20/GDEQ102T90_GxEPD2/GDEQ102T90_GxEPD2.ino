@@ -1,4 +1,4 @@
-// NOT YET COPMATIBLE!!!!!
+// NO YET WORKING, not supported by GxEPD2
 
 /* Display test for Good Display GDEQ102T90
  * example from GxEPD2 library is used
