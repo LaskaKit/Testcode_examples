@@ -10,8 +10,7 @@
  */
 
 // Display Library example for SPI e-paper panels from Dalian Good Display.
-// Requires Adafruit_GFX and https://github.com/ZinggJM/GxEPD2 Author: Jean-Marc Zingg
-// Display Library based on Demo Example from Good Display: http://www.e-paper-display.com/download_list/downloadcategoryid=34&isMode=false.html
+// Requires GxEPD2 library https://github.com/ZinggJM/GxEPD2 Author: Jean-Marc Zingg
 
 #define ENABLE_GxEPD2_GFX 0
 
