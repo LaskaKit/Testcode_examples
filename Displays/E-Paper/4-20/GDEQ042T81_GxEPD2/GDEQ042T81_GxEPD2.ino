@@ -1,9 +1,9 @@
-// NO YET WORKING
-/* Display test for Good Display GDEW042T2
+// NO YET WORKING, not supported by GxEPD2
+/* Display test for Good Display GDEQ042T81
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEW042T2         
+ * Display: Good Display GDEQ042T81         
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -23,7 +23,7 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_BW<GxEPD2_420_M01, GxEPD2_420_M01::HEIGHT> display(GxEPD2_420_M01(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW042M01, LaskaKit: Waveshare 4.2"
+//GxEPD2_BW<GxEPD2_420_M01, GxEPD2_420_M01::HEIGHT> display(GxEPD2_420_M01(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW042M01, LaskaKit: Waveshare 4.2"
 
 void setup()
 {
