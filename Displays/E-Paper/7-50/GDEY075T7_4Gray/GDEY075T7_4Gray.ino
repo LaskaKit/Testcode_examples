@@ -46,6 +46,13 @@ void PIC_display_Clean(void);
 unsigned char HRES,VRES_byte1,VRES_byte2;
 
 void setup() {
+
+  // turn on power to display
+  pinMode(2, OUTPUT);
+  digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
+  Serial.println("Display power ON");
+  delay(500);   
+
    pinMode(BUSY_Pin, INPUT); 
    pinMode(RES_Pin, OUTPUT);  
    pinMode(DC_Pin, OUTPUT);    
