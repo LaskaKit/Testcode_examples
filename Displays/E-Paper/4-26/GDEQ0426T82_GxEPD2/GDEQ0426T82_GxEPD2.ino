@@ -1,10 +1,8 @@
-// NOT yet fully comparable yet with GxEPD2 library, can use GDEH075Z90 with the same driver just to test if display is working.
-
 /* Display test for Good Display GDEQ0426T82
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEQ0426T82         
+ * Display: Good Display GDEQ0426T82        https://www.laskakit.cz/good-display-gdeq0426t82-4-26--800x480-epaper-displej-grayscale/  
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -24,7 +22,7 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_3C<GxEPD2_750c_Z90, GxEPD2_750c_Z90::HEIGHT / 2> display(GxEPD2_750c_Z90(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEH075Z90 880x528, SSD1677
+GxEPD2_BW<GxEPD2_426_GDEQ0426T82, GxEPD2_426_GDEQ0426T82::HEIGHT> display(GxEPD2_426_GDEQ0426T82(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEQ0426T82 480x800, SSD1677 (P426010-MF1-A)
 
 void setup()
 {
