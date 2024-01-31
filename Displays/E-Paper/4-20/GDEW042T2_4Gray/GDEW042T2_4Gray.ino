@@ -1,8 +1,8 @@
-/* Display test for Good Display GDEH0154D67
+/* Display test for Good Display GDEW042T2
  * example from Good Display is used
  * 
  * Board:           LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display:         Good Display GDEH0154D67          https://www.laskakit.cz/good-display-gdew042t2-4-2--400x300-epaper-displej-grayscale/
+ * Display:         Good Display GDEW042T2          https://www.laskakit.cz/good-display-gdew042t2-4-2--400x300-epaper-displej-grayscale/
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
