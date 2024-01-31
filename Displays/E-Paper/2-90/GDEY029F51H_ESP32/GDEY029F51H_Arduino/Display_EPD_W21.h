@@ -1,0 +1,36 @@
+#ifndef _DISPLAY_EPD_W21_H_
+#define _DISPLAY_EPD_W21_H_
+
+#define EPD_WIDTH   384
+#define EPD_HEIGHT  168
+
+
+//2bit
+#define black   0x00  /// 00
+#define white   0x01  /// 01
+#define yellow  0x02  /// 10
+#define red     0x03  /// 11
+
+
+#define Source_BITS     168
+#define Gate_BITS   384
+#define ALLSCREEN_BYTES   Source_BITS*Gate_BITS/4
+
+//EPD
+void EPD_init(void);
+void PIC_display (const unsigned char* picData);
+void EPD_sleep(void);
+void EPD_refresh(void);
+void lcd_chkstatus(void);
+
+void Display_All_Black(void);
+void Display_All_White(void);
+void Display_All_Yellow(void);
+void Display_All_Red(void);
+
+void Acep_color(unsigned char color);
+
+#endif
+/***********************************************************
+            end file
+***********************************************************/

@@ -3,7 +3,7 @@
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEY029F51H         
+ * Display: Good Display GDEY029F51H        https://www.laskakit.cz/good-display-gdey029f51h-2-9--384x168-epaper-displej-4-barvy/      
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -110,7 +110,7 @@ void helloWorld()
   display.setRotation(1);
   display.setFont(&FreeMonoBold9pt7b);
   if (display.epd2.WIDTH < 104) display.setFont(0);
-  display.setTextColor(GxEPD_BLACK);
+  display.setTextColor(GxEPD_WHITE);
   int16_t tbx, tby; uint16_t tbw, tbh;
   display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
   // center bounding box by transposition of origin:
