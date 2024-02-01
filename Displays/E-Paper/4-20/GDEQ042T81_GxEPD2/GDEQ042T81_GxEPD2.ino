@@ -21,7 +21,7 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_BW<GxEPD2_420_GDEY042T91, GxEPD2_420_GDEY042T91::HEIGHT> display(GxEPD2_420_GDEY042T91(/*CS=D8*/ SS, /*DC=D3*/ 17, /*RST=D4*/ 16, /*BUSY=D2*/ 4)); //GDEQ042T81, GDEY042T91, 400x300, SSD1683 (no inking)
+GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEY042T81, 400x300, SSD1683 (no inking)
 
 void setup()
 {
