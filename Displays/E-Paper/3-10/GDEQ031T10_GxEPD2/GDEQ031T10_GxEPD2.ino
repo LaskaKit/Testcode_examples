@@ -1,7 +1,7 @@
-/* Display test for Good Display GDEQ031T10, for test purpose only, not yet compatabile with this library
+/* Display test for Good Display GDEQ031T10
  * example from GxEPD2 library is used
  * 
- * Board:           LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-esp32-devkit/
+ * Board:           LaskaKit ESPink ESP32 DevKit   https://www.laskakit.cz/laskakit-esp32-devkit/
  * Adapter  Board:  DESPI-C03 SPI e-Paper adapter   https://www.laskakit.cz/good-display-despi-c31-univerzalni-spi-e-paper-adapter/ 
  * Display:         Good Display GDEQ031T10         https://www.laskakit.cz/good-display-gdeq031t10-3-1--296x128-epaper-displej/
  * 
@@ -22,7 +22,7 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_BW<GxEPD2_260_M01, GxEPD2_260_M01::HEIGHT> display(GxEPD2_260_M01(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // for test purpose only, not yet compatabile with this library. GDEW026M01 152x296, UC8151 (IL0373)
+GxEPD2_BW<GxEPD2_310_GDEQ031T10, GxEPD2_310_GDEQ031T10::HEIGHT> display(GxEPD2_310_GDEQ031T10(/*CS=15*/ SS, /*DC=4*/ 4, /*RST=2*/ 2, /*BUSY=5*/ 5)); // GDEQ031T10 240x320, UC8253, (no inking, backside mark KEGMO 3100)
 
 void setup()
 {

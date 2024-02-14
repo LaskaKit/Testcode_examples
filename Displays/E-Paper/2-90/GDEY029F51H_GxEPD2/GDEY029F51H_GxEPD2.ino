@@ -1,4 +1,3 @@
-
 /* Display test for Good Display GDEY029F51H
  * example from GxEPD2 library is used
  * 
