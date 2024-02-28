@@ -1,10 +1,8 @@
-// NO YET WORKING, not supported by GxEPD2
-
-/* Display test for Good Display GDEQ102T90
+/* Display test for Good Display GDEM102T91
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEQ102T90         
+ * Display: Good Display GDEM102T91         https://www.laskakit.cz/good-display-gdeq102t90-10-2--960x640-epaper-displej/         
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
