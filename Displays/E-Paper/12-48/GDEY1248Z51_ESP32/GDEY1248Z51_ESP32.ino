@@ -3,19 +3,21 @@
 //#include "food.h"
 
 //IO settings
-int EPD_W21_SDA = 4; 
-int EPD_W21_SCL =0;
-int EPD_W21_CS_S2 = 2; 
-int EPD_W21_CS_M1 = 15; 
-int EPD_W21_RST_M2 = 13; 
-int EPD_W21_RST_M1 = 12; 
-int EPD_W21_DC_M2 = 14; 
-int EPD_W21_DC_M1 = 27; 
-int EPD_W21_CS_M2 = 33; 
-int EPD_W21_CS_S1 = 32;
+int EPD_W21_SDA = 36; //MOSI
+int EPD_W21_SCL =28;// 
+int EPD_W21_CS_S2 = 46; //
+int EPD_W21_CS_M1 = 17; //
+int EPD_W21_RST_M2 = 38; //
+int EPD_W21_RST_M1 = 19; //
+int EPD_W21_DC_M2 = 39; //
+int EPD_W21_DC_M1 = 20; //
+int EPD_W21_CS_M2 = 40; //
+int EPD_W21_CS_S1 = 18; //
 
+//int EPD_W21_BUSY_M2 = 37;//
 //BUSY 
-int EPD_W21_BUSY_M1=39;
+int EPD_W21_BUSY_M1 = 8;//
+
 
 //CS
 #define EPD_W21_CS_M1_0  ( digitalWrite(EPD_W21_CS_M1,LOW)) 
@@ -86,6 +88,13 @@ void lcd_chkstatus_M2(void);
 void lcd_chkstatus_S2(void);
 
 void setup() {
+
+  // turn on power to display
+  pinMode(47, OUTPUT);
+  digitalWrite(47, HIGH);   // turn the LED on (HIGH is the voltage level)
+  Serial.println("Display power ON");
+  delay(1000);   
+
    pinMode(EPD_W21_SDA, OUTPUT);  
    pinMode(EPD_W21_SCL, OUTPUT);    
    pinMode(EPD_W21_CS_S2, OUTPUT);    

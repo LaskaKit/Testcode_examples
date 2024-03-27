@@ -19,8 +19,8 @@
 #include "bitmaps/Bitmaps1304x984.h" // 12.48" b/w
 
 GxEPD2_3C < GxEPD2_1248c, GxEPD2_1248c::HEIGHT / 4 >
-display(GxEPD2_1248c(/*sck=*/ 0, /*miso=*/ -1, /*mosi=*/ 4, /*cs_m1=*/ 15, /*cs_s1=*/ 32, /*cs_m2=*/ 33, /*cs_s2=*/ 2,
-                            /*dc1=*/ 27, /*dc2=*/ 14, /*rst1=*/ 12, /*rst2=*/ 13, /*busy_m1=*/ 39, /*busy_s1=*/ 35, /*busy_m2=*/ 4, /*busy_s2=*/ 34));
+display(GxEPD2_1248c(/*sck=*/ 28, /*miso=*/ -1, /*mosi=*/ 36, /*cs_m1=*/ 17, /*cs_s1=*/ 18, /*cs_m2=*/ 40, /*cs_s2=*/ 46,
+                            /*dc1=*/ 20, /*dc2=*/ 39, /*rst1=*/ 19, /*rst2=*/ 38, /*busy_m1=*/ 8, /*busy_s1=*/ 3, /*busy_m2=*/ 37, /*busy_s2=*/ 41));
 void setup()
 {
   Serial.begin(115200);
@@ -29,8 +29,8 @@ void setup()
   delay(100);
 
 // turn on power to display
-  pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
+  pinMode(47, OUTPUT);
+  digitalWrite(47, HIGH);   // turn the LED on (HIGH is the voltage level)
   Serial.println("Display power ON");
   delay(1000);   
   
