@@ -26,11 +26,6 @@ int CS_Pin = 5;
 
 void setup() {
   
-  Serial.begin(115200);
-  Serial.println();
-  Serial.println("setup");
-  delay(100);
-
 // turn on power to display
   pinMode(2, OUTPUT);
   digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
