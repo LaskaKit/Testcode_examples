@@ -1,9 +1,8 @@
-
 /* Display test for Good Display GDEY075Z08
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEY075Z08         
+ * Display: Good Display GDEY075Z08         https://www.laskakit.cz/good-display-gdey075z08-7-5--800x480-epaper-cerveny-displej/  
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
