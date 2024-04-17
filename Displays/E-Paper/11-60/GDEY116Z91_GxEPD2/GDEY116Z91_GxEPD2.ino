@@ -1,5 +1,3 @@
-// NO YET WORKING, not supported by GxEPD2
-
 /* Display test for Good Display GDEY116Z91
  * example from GxEPD2 library is used
  * 
@@ -24,7 +22,7 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_BW < GxEPD2_1160_T91, GxEPD2_1160_T91::HEIGHT / 2> display(GxEPD2_1160_T91(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEH116T91 960x640, SSD1677, should work
+GxEPD2_3C<GxEPD2_1160c_GDEY116Z91, GxEPD2_1160c_GDEY116Z91::HEIGHT / 2> display(GxEPD2_1160c_GDEY116Z91(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEY116Z91 960x640, SSD1677
 
 void setup()
 {

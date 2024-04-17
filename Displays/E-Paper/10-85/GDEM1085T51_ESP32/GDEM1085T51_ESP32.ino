@@ -5,16 +5,17 @@
 #include "Ap_29demo.h"  
 
 
-//IO settings
+//IO settings ESP32-S3
 
-#define SCK   18          
-#define MOSI  23
-#define BUSY  4
-#define CS   5
-#define CS2   27
-#define RES   16
-#define DC    17
-#define USUP_POWER  2
+#define CS    10
+#define MOSI  11
+#define SCK   12  
+#define DC    13        
+#define CS2   39
+#define BUSY  40
+#define RES   41
+
+#define USUP_POWER  47
 
 void setup() {
   Serial.begin(115200);
@@ -24,14 +25,17 @@ void setup() {
   Serial.println("Display power ON");
   delay(1000);   
 
+   SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0)); 
+   SPI.begin ( SCK, -1, MOSI, CS);     
+
    pinMode(BUSY, INPUT);  //BUSY
    pinMode(RES, OUTPUT); //RES 
    pinMode(DC, OUTPUT); //DC   
    pinMode(CS, OUTPUT); //CS
    pinMode(CS2, OUTPUT); //CS2    
    //SPI
-   SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0)); 
-   SPI.begin ( SCK, -1, MOSI, CS);     
+   
+
 }
 
 //Tips//

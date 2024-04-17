@@ -1,5 +1,4 @@
-/* Display test for Good Display GDEQ0583Z31, for test purpose only, not yet compatabile with this library
- * example from GxEPD2 library is used
+/* Display test for Good Display GDEQ0583Z31
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
  * Display: Good Display GDEQ0583Z31        https://www.laskakit.cz/good-display-gdeq0583z31-5-83--648x480-epaper-cerveny-displej/
@@ -22,7 +21,7 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_3C<GxEPD2_583c_Z83, GxEPD2_583c_Z83::HEIGHT> display(GxEPD2_583c_Z83(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW0583Z83 648x480, GD7965
+GxEPD2_3C<GxEPD2_583c_GDEQ0583Z31, GxEPD2_583c_GDEQ0583Z31::HEIGHT / 2> display(GxEPD2_583c_GDEQ0583Z31(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEQ0583Z31 648x480, UC8179C
 
 void setup()
 {

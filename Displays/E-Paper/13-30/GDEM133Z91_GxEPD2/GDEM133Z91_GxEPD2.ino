@@ -1,10 +1,8 @@
-// NO YET WORKING, not supported by GxEPD2
-
 /* Display test for Good Display GDEM133Z91
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEM133Z91         
+ * Display: Good Display GDEM133Z91         https://www.laskakit.cz/good-display-gdem133z91-13-3--960x680-epaper-cerveny-displej/   
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -24,7 +22,7 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_3C<GxEPD2_750c_Z90, GxEPD2_750c_Z90::HEIGHT / 2> display(GxEPD2_750c_Z90(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEH075Z90 880x528, SSD1677, for test puprpose. Only working 880x528 part off display
+GxEPD2_3C<GxEPD2_1330c_GDEM133Z91, GxEPD2_1330c_GDEM133Z91::HEIGHT / 2> display(GxEPD2_1330c_GDEM133Z91(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEM133Z91 960x680, SSD1677
 
 void setup()
 {

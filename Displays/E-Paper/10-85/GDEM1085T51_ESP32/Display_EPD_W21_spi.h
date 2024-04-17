@@ -3,14 +3,13 @@
 #include "Arduino.h"
 
 
-#define SCK   18          
-#define MOSI  23
-#define BUSY  4
-#define CS   5
-#define CS2   27
-#define RES   16
-#define DC    17
-#define USUP_POWER  2
+#define CS    10
+#define MOSI  11
+#define SCK   12  
+#define DC    13        
+#define CS2   39
+#define BUSY  40
+#define RES   41
 
 #define isEPD_W21_BUSY digitalRead(BUSY)  //BUSY
 #define EPD_W21_RST_0 digitalWrite(RES,LOW)  //RES
