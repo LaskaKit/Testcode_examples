@@ -1,1 +1,1 @@
-#### See examples for LaskaKit ESPin-Dually e-Paper board: https://github.com/LaskaKit/ESPink-Dually/tree/main/SW/GDEY1248Z51_GxEPD2
+#### See examples for LaskaKit ESPink-Dually e-Paper board: https://github.com/LaskaKit/ESPink-Dually/tree/main/SW/GDEY1248Z51_GxEPD2
