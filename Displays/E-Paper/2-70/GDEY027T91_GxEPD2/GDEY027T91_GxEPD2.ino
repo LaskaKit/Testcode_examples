@@ -3,7 +3,7 @@
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEY027T91         
+ * Display: Good Display GDEY027T91         https://www.laskakit.cz/good-display-gdey027t91-2-7--264x176-epaper-displej-grayscale/
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -24,7 +24,6 @@
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
 //GxEPD2_BW<GxEPD2_270_GDEY027T91, GxEPD2_270_GDEY027T91::HEIGHT> display(GxEPD2_270_GDEY027T91(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEY027T91 176x264, SSD1680
-GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW027W3 176x264, EK79652 (IL91874)
 
 void setup()
 {

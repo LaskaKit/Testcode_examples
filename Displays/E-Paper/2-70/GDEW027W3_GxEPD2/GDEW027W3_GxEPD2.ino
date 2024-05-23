@@ -1,9 +1,9 @@
 
-/* Display test for Good Display GDEY027T91
+/* Display test for Good Display GDEW027W3
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEY027T91         
+ * Display: Good Display GDEW027W3         
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
