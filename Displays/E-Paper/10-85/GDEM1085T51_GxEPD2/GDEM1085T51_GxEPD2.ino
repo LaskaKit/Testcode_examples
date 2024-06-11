@@ -1,8 +1,8 @@
-/* Display test for Good Display GDEM1085T51 not yet compartible with library
+/* Display test for Good Display GDEM1085T51
  * example from GxEPD2 library is used
  * 
- * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEM1085T51         https://www.laskakit.cz/good-display-gdem1085t51-10-85--1360x480-epaper-displej/         
+ * Board:   LaskaKit ESPink ESP32 e-Paper (version 3.1 and above)   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
+ * Display: Good Display GDEM1085T51                                https://www.laskakit.cz/good-display-gdem1085t51-10-85--1360x480-epaper-displej/         
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -22,7 +22,16 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-// GDEM1085T51 not yet compartible
+  //MOSI/SDI    11
+  //CLK/SCK     12
+  //SS/CS       10
+  #define CS2   35 
+  #define DC    48 
+  #define RST   45  
+  #define BUSY  36 
+  #define POWER 47
+
+GxEPD2_BW < GxEPD2_1085_GDEM1085T51, GxEPD2_1085_GDEM1085T51::HEIGHT / 2> display(GxEPD2_1085_GDEM1085T51(SS, DC, RST, BUSY, CS2)); // GDEM1085T51 1360x480, JD79686AB, (FPC8617)
 
 void setup()
 {
@@ -32,8 +41,8 @@ void setup()
   delay(100);
 
 // turn on power to display
-  pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
+  pinMode(POWER, OUTPUT);
+  digitalWrite(POWER, HIGH);   // turn the LED on (HIGH is the voltage level)
   Serial.println("Display power ON");
   delay(1000);   
   
