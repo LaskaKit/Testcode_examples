@@ -1,4 +1,4 @@
-/* Display test for Good Display GDEY0213F51, not yet working, for test purpose only
+/* Display test for Good Display GDEY0213F51
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
@@ -23,6 +23,29 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
+//#define ESPink_V2     //for version v2.6 and earlier
+#define ESPink_V3     //for version v3.0 and above
+
+#ifdef ESPink_V2
+  //MOSI/SDI    23
+  //CLK/SCK     18
+  //SS/CS       5
+  #define DC    17 
+  #define RST   16  
+  #define BUSY  4 
+  #define POWER 2
+#else ESPink_V3
+  //MOSI/SDI    11
+  //CLK/SCK     12
+  //SS/CS       10
+  #define CS2   35 // For GDEM1085T51 Only
+  #define DC    48 
+  #define RST   45  
+  #define BUSY  36 
+  #define POWER 47
+#endif
+
+GxEPD2_4C<GxEPD2_213c_GDEY0213F51, GxEPD2_213c_GDEY0213F51::HEIGHT> display(GxEPD2_213c_GDEY0213F51(SS, DC, RST, BUSY)); // GDEY0213F51 122x250, JD79661 (FPC-A002 20.04.08)
 
 void setup()
 {
