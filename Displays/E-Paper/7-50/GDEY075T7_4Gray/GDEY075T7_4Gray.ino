@@ -12,13 +12,23 @@
 
 #include <SPI.h>
 #include"Ap_29demo.h"
-//IO settings
-int BUSY_Pin = 4;
-int RES_Pin = 16;
-int DC_Pin = 17;
-int CS_Pin = 5;
+//IO settings ESPink V3
+//int BUSY_Pin = 4;
+//int RES_Pin = 16;
+//int DC_Pin = 17;
+//int CS_Pin = 5;
+//int PWR_Pin = 2;
 //SCLK--GPIO18
 //MOSI---GPIO23
+
+//IO settings ESPink V3
+int BUSY_Pin = 36;
+int RES_Pin = 45;
+int DC_Pin = 48;
+int CS_Pin = 10;
+int PWR_Pin = 47;
+//SCLK--GPIO12
+//MOSI---GPIO11
 
 #define EPD_W21_CS_0 digitalWrite(CS_Pin,LOW)
 #define EPD_W21_CS_1 digitalWrite(CS_Pin,HIGH)
@@ -48,8 +58,8 @@ unsigned char HRES,VRES_byte1,VRES_byte2;
 void setup() {
 
   // turn on power to display
-  pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
+  pinMode(PWR_Pin, OUTPUT);
+  digitalWrite(PWR_Pin, HIGH);   // turn the LED on (HIGH is the voltage level)
   Serial.println("Display power ON");
   delay(500);   
 
