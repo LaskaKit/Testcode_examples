@@ -71,7 +71,7 @@ void loop() {
 
 void drawBitmaps800x480() {
   const unsigned char* bitmaps[] =  {
-    Bitmap800x480_4, Bitmap800x480_2, Bitmap800x480_3, Bitmap800x480_1
+    Bitmap800x480_1, Bitmap800x480_2, Bitmap800x480_3, Bitmap800x480_4
   };
 
   if ((display.epd2.WIDTH == 800) && (display.epd2.HEIGHT == 480)) {
