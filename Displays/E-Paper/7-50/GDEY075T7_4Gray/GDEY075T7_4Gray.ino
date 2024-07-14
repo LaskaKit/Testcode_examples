@@ -1,42 +1,48 @@
-/* Display test for Good Display GDEY075T7
+/* Display test with bitmaps for Good Display GDEY075T7
  * example from Good Display is used
  * 
- * Board:           LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display:         Good Display GDEY075T7          https://www.laskakit.cz/good-display-gdey075t7-7-5--800x480-epaper-displej-grayscale/
+ * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
+ * Display: Good Display GDEY075T7          https://www.laskakit.cz/good-display-gdey075t7-7-5--800x480-epaper-displej-grayscale/
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
  */
 
-// Display Library example for SPI e-paper panels from Dalian Good Display.
-
 #include <SPI.h>
 #include"Ap_29demo.h"
-//IO settings ESPink V3
-//int BUSY_Pin = 4;
-//int RES_Pin = 16;
-//int DC_Pin = 17;
-//int CS_Pin = 5;
-//int PWR_Pin = 2;
-//SCLK--GPIO18
-//MOSI---GPIO23
 
-//IO settings ESPink V3
-int BUSY_Pin = 36;
-int RES_Pin = 45;
-int DC_Pin = 48;
-int CS_Pin = 10;
-int PWR_Pin = 47;
-//SCLK--GPIO12
-//MOSI---GPIO11
 
-#define EPD_W21_CS_0 digitalWrite(CS_Pin,LOW)
-#define EPD_W21_CS_1 digitalWrite(CS_Pin,HIGH)
-#define EPD_W21_DC_0  digitalWrite(DC_Pin,LOW)
-#define EPD_W21_DC_1  digitalWrite(DC_Pin,HIGH)
-#define EPD_W21_RST_0 digitalWrite(RES_Pin,LOW)
-#define EPD_W21_RST_1 digitalWrite(RES_Pin,HIGH)
-#define isEPD_W21_BUSY digitalRead(BUSY_Pin)
+//IO settings
+//#define ESPink_V2     //for version v2.6 and earlier
+#define ESPink_V3     //for version v3.0 and above
+
+#ifdef ESPink_V2
+  #define MISO  -1
+  #define MOSI  23
+  #define SCK   18
+  #define CS    5
+  #define DC    17 
+  #define RST   16  
+  #define BUSY  4 
+  #define POWER 2
+#else ESPink_V3
+  #define MISO  -1
+  #define MOSI  11
+  #define SCK   12
+  #define CS    10
+  #define DC    48 
+  #define RST   45  
+  #define BUSY  36 
+  #define POWER 47
+#endif
+
+#define EPD_W21_CS_0 digitalWrite(CS,LOW)
+#define EPD_W21_CS_1 digitalWrite(CS,HIGH)
+#define EPD_W21_DC_0  digitalWrite(DC,LOW)
+#define EPD_W21_DC_1  digitalWrite(DC,HIGH)
+#define EPD_W21_RST_0 digitalWrite(RST,LOW)
+#define EPD_W21_RST_1 digitalWrite(RST,HIGH)
+#define isEPD_W21_BUSY digitalRead(BUSY)
 ////////FUNCTION//////
 void driver_delay_us(unsigned int xus);
 void driver_delay_xms(unsigned long xms);
@@ -58,18 +64,18 @@ unsigned char HRES,VRES_byte1,VRES_byte2;
 void setup() {
 
   // turn on power to display
-  pinMode(PWR_Pin, OUTPUT);
-  digitalWrite(PWR_Pin, HIGH);   // turn the LED on (HIGH is the voltage level)
-  Serial.println("Display power ON");
+  pinMode(POWER, OUTPUT);
+  digitalWrite(POWER, HIGH);   // turn the Display Power on (HIGH is the voltage level)
+
   delay(500);   
 
-   pinMode(BUSY_Pin, INPUT); 
-   pinMode(RES_Pin, OUTPUT);  
-   pinMode(DC_Pin, OUTPUT);    
-   pinMode(CS_Pin, OUTPUT);    
+   pinMode(BUSY, INPUT); 
+   pinMode(RST, OUTPUT);  
+   pinMode(DC, OUTPUT);    
+   pinMode(CS, OUTPUT);    
    //SPI
    SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0)); 
-   SPI.begin ();
+   SPI.begin (SCK, MISO, MOSI, CS);  
 }
 
 
