@@ -1,9 +1,8 @@
-
 /* Display test for Good Display GDEY075T7
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEY075T7         
+ * Display: Good Display GDEY075T7          https://www.laskakit.cz/good-display-gdey075t7-7-5--800x480-epaper-displej-grayscale/
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -55,7 +54,7 @@ void setup()
 
 // turn on power to display
   pinMode(POWER, OUTPUT);
-  digitalWrite(POWER, HIGH);   // turn the LED on (HIGH is the voltage level)
+  digitalWrite(POWER, HIGH);   // turn the Display Power on (HIGH is the voltage level)
   Serial.println("Display power ON");
   delay(1000);   
   
