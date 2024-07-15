@@ -12,7 +12,7 @@
 // Requires Adafruit_GFX and https://github.com/ZinggJM/GxEPD2 Author: Jean-Marc Zingg
 // Display Library based on Demo Example from Good Display: http://www.e-paper-display.com/download_list/downloadcategoryid=34&isMode=false.html
 
-#define ENABLE_GxEPD2_GFX 0
+#define ENABLE_GxEPD2_GFX 1
 
 #include <GxEPD2_BW.h>
 #include "bitmaps/Bitmaps800x480.h" // 7.5"  b/w
