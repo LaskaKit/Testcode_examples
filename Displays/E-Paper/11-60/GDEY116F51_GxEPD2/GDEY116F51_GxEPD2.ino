@@ -1,8 +1,8 @@
-/* Display test for Good Display GDEY116F51, not yet fully working, for test purpose only
+/* Display test for Good Display GDEY116F51
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEY116F51         
+ * Display: Good Display GDEY116F51         https://www.laskakit.cz/good-display-gdey116f51-11-6--960x640-epaper-displej-4-barvy/    
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -21,9 +21,32 @@
 #include <Fonts/FreeMonoBold9pt7b.h>
 #include "bitmaps/Bitmaps1304x984.h" // 12.48" b/w
 
+//#define ESPink_V2     //for version v2.6 and earlier
+#define ESPink_V3     //for version v3.0 and above
+
+#ifdef ESPink_V2
+  //MOSI/SDI    23
+  //CLK/SCK     18
+  //SS/CS       5
+  #define DC    17 
+  #define RST   16  
+  #define BUSY  4 
+  #define POWER 2
+#else ESPink_V3
+  //MOSI/SDI    11
+  //CLK/SCK     12
+  //SS/CS       10
+  #define CS2   35 // For GDEM1085T51 Only
+  #define DC    48 
+  #define RST   45  
+  #define BUSY  36 
+  #define POWER 47
+#endif
+
+
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_4C<GxEPD2_290c_GDEY029F51H, GxEPD2_290c_GDEY029F51H::HEIGHT> display(GxEPD2_290c_GDEY029F51H(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEY029F51H 168x384, JD79667 (FPC-H004 22.03.24) , working only part display, for test purpose only
+GxEPD2_4C<GxEPD2_1160c_GDEY116F51, GxEPD2_1160c_GDEY116F51::HEIGHT / 2> display(GxEPD2_1160c_GDEY116F51(SS, DC, RST, BUSY)); // GDEY116F51 960x640, SSD2677, (FPC-K012 23.09.27)
 
 void setup()
 {
@@ -33,8 +56,8 @@ void setup()
   delay(100);
 
 // turn on power to display
-  pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
+  pinMode(POWER, OUTPUT);
+  digitalWrite(POWER, HIGH);   // turn the LED on (HIGH is the voltage level)
   Serial.println("Display power ON");
   delay(1000);   
   
