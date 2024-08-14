@@ -5,7 +5,7 @@
             OV2640 2MP FishEye kamera https://www.laskakit.cz/lilygo-ttgo-ov2640-2mp-fisheye-kamera/
             LILYGO OV5640 5MP  kamera https://www.laskakit.cz/lilygo-ov5640-5mp--kamera/
  * 
- * Choose board: Ai Thinker ESP32-CAM
+ * !---Choose board: Ai Thinker ESP32-CAM---!
  * Fill your WiFi cridentials first
  * You will see webserver IP in serial monitor
  * 
