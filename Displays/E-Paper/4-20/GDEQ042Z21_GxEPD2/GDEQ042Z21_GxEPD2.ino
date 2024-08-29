@@ -1,4 +1,3 @@
-
 /* Display test for Good Display GDEQ042Z21
  * example from GxEPD2 library is used
  * 
@@ -54,8 +53,8 @@ void setup()
   delay(100);
 
 // turn on power to display
-  pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
+  pinMode(POWER, OUTPUT);
+  digitalWrite(POWER, HIGH);   // turn the LED on (HIGH is the voltage level)
   Serial.println("Display power ON");
   delay(1000);   
   
