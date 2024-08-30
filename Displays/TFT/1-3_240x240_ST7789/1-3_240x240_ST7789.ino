@@ -1,5 +1,5 @@
 /* Display test for 1.3" 240x240 IPS ST7789 Display
- * example from GxEPD2 library is used
+ * example from Arduino_ST7789 library is used
  * 
  * Board:   LaskaKit ESP32-S3-DEVKit        https://www.laskakit.cz/laskakit-esp32-s3-devkit
  *    or:   LaskaKit ESP32-DEVKit           https://www.laskakit.cz/laskakit-esp32-devkit
@@ -8,8 +8,6 @@
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
  */
-
-// Display Library example for SPI e-paper panels from Dalian Good Display.
 // Requires Adafruit_GFX and https://github.com/wilmsn/Arduino-ST7789-Library Author: Originally written by Limor Fried/Ladyada for Adafruit Industries. Modified by Ananev Ilia
 
 #include <Adafruit_GFX.h>    // Core graphics library by Adafruit
