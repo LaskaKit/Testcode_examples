@@ -1,7 +1,7 @@
 /* Test code for DP-48A and CSN-A2 58mm thermal printers
  * Demonstrates a few text styles & layouts, bitmap printing, etc.
  * 
- * Board:   LaskaKit UNO R3               https://www.laskakit.cz/arduino-uno-r3--atmega328p--precizni-klon/
+ * Board:   LaskaKit ESP32-DEVKit         https://www.laskakit.cz/laskakit-esp32-devkit/
  * Printer: DP-48A 58mm thermal printer:  https://www.laskakit.cz/dp-48a-58mm-modul-termotiskarny/
  *      or: CSN-A2 58mm thermal printer:  https://www.laskakit.cz/csn-a2-58mm-termotiskarna-do-panelu--uart/
  * 
@@ -15,29 +15,18 @@
 #include "adalogo.h"
 #include "adaqrcode.h"
 
-// Here's the new syntax when using SoftwareSerial (e.g. Arduino Uno) ----
-// If using hardware serial instead, comment out or remove these lines:
+#include <HardwareSerial.h>
+#define TX_PIN 17 // Arduino transmit  YELLOW WIRE  labeled RX on printer
+#define RX_PIN 16 // Arduino receive   GREEN WIRE   labeled TX on printer
 
-#include "SoftwareSerial.h"
-#define TX_PIN 6 // Arduino transmit  YELLOW WIRE  labeled RX on printer
-#define RX_PIN 5 // Arduino receive   GREEN WIRE   labeled TX on printer
-
-SoftwareSerial mySerial(RX_PIN, TX_PIN); // Declare SoftwareSerial obj first
-Adafruit_Thermal printer(&mySerial);     // Pass addr to printer constructor
-// Then see setup() function regarding serial & printer begin() calls.
-
-// Here's the syntax for hardware serial (e.g. Arduino Due) --------------
-// Un-comment the following line if using hardware serial:
-
-//Adafruit_Thermal printer(&Serial1);      // Or Serial2, Serial3, etc.
-
-// -----------------------------------------------------------------------
+// Using hardware serial:
+HardwareSerial SerialPort(1);
+Adafruit_Thermal printer(&SerialPort);     // Pass addr to printer constructor
 
 void setup() {
 
   // NOTE: SOME PRINTERS NEED 9600 BAUD instead of 19200, check test page.
-  mySerial.begin(9600);  // Initialize SoftwareSerial
-  //Serial1.begin(19200); // Use this instead if using hardware serial
+  SerialPort.begin(9600, SERIAL_8N1, RX_PIN, TX_PIN);
   printer.begin();        // Init printer (same regardless of serial type)
 
   // Font options
