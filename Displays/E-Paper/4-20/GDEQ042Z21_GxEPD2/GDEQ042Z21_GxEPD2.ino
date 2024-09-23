@@ -21,7 +21,7 @@
 #include "bitmaps/Bitmaps1304x984.h" // 12.48" b/w
 
 //#define ESPink_V2     //for version v2.6 and earlier
-#define ESPink_V3     //for version v3.0 and above
+#define ESPink_V3     //for version v3.0 and above DISP1=ON,DISP2=OFF
 
 #ifdef ESPink_V2
   //MOSI/SDI    23
