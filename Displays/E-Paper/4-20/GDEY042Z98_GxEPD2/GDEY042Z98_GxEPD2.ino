@@ -1,8 +1,8 @@
-/* Display test for Good Display GDEY042Z98. Not yet compatible for test purpose only
+/* Display test for Good Display GDEY042Z98.
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEY042Z98         
+ * Display: Good Display GDEY042Z98         https://www.laskakit.cz/good-display-gdey042z98-4-2--400x300-epaper-cerveny-displej/
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -20,7 +20,7 @@
 #include "bitmaps/Bitmaps1304x984.h" // 12.48" b/w
 
 //#define ESPink_V2     //for version v2.6 and earlier
-#define ESPink_V3     //for version v3.0 and above
+#define ESPink_V3     //for version v3.0 and above, DISP1=OFF,DISP2=OFF
 
 #ifdef ESPink_V2
   //MOSI/SDI    23
@@ -42,7 +42,7 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(SS, DC, RST, BUSY)); // GDEY042T81.  Not yet compatible for test purpose only
+GxEPD2_3C<GxEPD2_420c_GDEY042Z98, GxEPD2_420c_GDEY042Z98::HEIGHT> display(GxEPD2_420c_GDEY042Z98(SS, DC, RST, BUSY)); // GDEY042Z98 400x300, SSD1683 (no inking)
 
 void setup()
 {
