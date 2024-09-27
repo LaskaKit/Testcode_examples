@@ -1,4 +1,4 @@
-/* Display test for Good Display GDEM102Z91
+/* Display test for Good Display GDEM102Z91, for test only, not yet compartible with library
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
