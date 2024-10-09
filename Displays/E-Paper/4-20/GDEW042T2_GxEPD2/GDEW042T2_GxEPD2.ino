@@ -1,4 +1,3 @@
-
 /* Display test for Good Display GDEW042T2
  * example from GxEPD2 library is used
  * 
