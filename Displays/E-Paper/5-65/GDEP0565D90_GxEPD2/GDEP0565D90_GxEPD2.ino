@@ -2,6 +2,7 @@
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
+            DIP setting: 1-ON, 2 OFF
  * Display: Good Display GDEP0565D90        https://www.laskakit.cz/good-display-gdep0565d90-5-65--600x448-epaper-barevny-displej/   
  * 
  * Email:podpora@laskakit.cz
