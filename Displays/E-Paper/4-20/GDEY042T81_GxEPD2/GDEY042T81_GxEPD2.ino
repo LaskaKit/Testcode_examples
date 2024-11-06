@@ -1,8 +1,8 @@
-/* Display test for Good Display GDEQ042T81
+/* Display test for Good Display GDEY042T81
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEQ042T81         https://www.laskakit.cz/good-display-gdeq042t81-4-2--400x300-epaper-displej/
+ * Display: Good Display GDEY042T81         https://www.laskakit.cz/good-display-gdeq042t81-4-2--400x300-epaper-displej/
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
