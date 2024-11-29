@@ -14,12 +14,10 @@
 
 #define ENABLE_GxEPD2_GFX 0
 
-#include <GxEPD2_BW.h>
-#include <GxEPD2_3C.h>
 #include <GxEPD2_4C.h>
-#include <GxEPD2_7C.h>
+
 #include <Fonts/FreeMonoBold9pt7b.h>
-#include "bitmaps/Bitmaps1304x984.h" // 12.48" b/w
+#include "bitmaps/Bitmaps168x384.h" // 2.9"  b/w
 
 //#define ESPink_V2     //for version v2.6 and earlier
 #define ESPink_V3     //for version v3.0 and above
@@ -49,18 +47,22 @@ GxEPD2_4C<GxEPD2_290c_GDEY029F51H, GxEPD2_290c_GDEY029F51H::HEIGHT> display(GxEP
 void setup()
 {
   Serial.begin(115200);
-  Serial.println();
-  Serial.println("setup");
-  delay(100);
-
-// turn on power to display
   pinMode(POWER, OUTPUT);
   digitalWrite(POWER, HIGH);   // turn the LED on (HIGH is the voltage level)
   Serial.println("Display power ON");
   delay(1000);   
-  
-  display.init(); // inicializace
+  Serial.println();
+  Serial.println("setup");
+  delay(100);
 
+  display.init(115200, true, 2, false); // USE THIS for Waveshare boards with "clever" reset circuit, 2ms reset pulse
+  if (display.pages() > 1)
+  {
+    delay(100);
+    Serial.print("pages = "); Serial.print(display.pages()); Serial.print(" page height = "); Serial.println(display.pageHeight());
+    delay(1000);
+  }
+  //display.clearScreen(); return;
   // first update should be full refresh
   helloWorld();
   delay(1000);
@@ -82,16 +84,25 @@ void setup()
     showFont("glcdfont", 0);
     delay(1000);
   }
+  //drawGrid(); return;
+  //drawCornerTest(); return;
+  display.writeScreenBuffer();
   drawBitmaps();
-
-  if (display.epd2.panel == GxEPD2::ACeP565)
+  //display.powerOff(); return;
+  drawGraphics();
+  //display.powerOff(); return;
+#if !defined(__AVR) // takes too long!
+  if ((display.epd2.panel == GxEPD2::ACeP565) || (display.epd2.panel == GxEPD2::GDEY073D46) || (display.epd2.panel == GxEPD2::ACeP730) ||
+      (display.epd2.panel == GxEPD2::GDEP0565D90) || (display.epd2.panel == GxEPD2::GDEP073E01))
   {
     //draw7colorlines();
     //delay(2000);
     draw7colors();
     delay(4000);
+    display.epd2.drawNativeColors(); delay(2000);
+    //return;
   }
-
+#endif
   if (display.epd2.hasPartialUpdate)
   {
     showPartialUpdate();
@@ -102,14 +113,13 @@ void setup()
   //showBox(16, 56, 48, 32, true);
   display.powerOff();
   deepSleepTest();
-
+#if defined(ESP32) && defined(_GxBitmaps1304x984_H_)
   drawBitmaps1304x984();
   display.powerOff();
-
+#endif
   Serial.println("setup done");
-
+  display.end();
 }
-
 
 void loop()
 {
@@ -130,7 +140,7 @@ void helloWorld()
   display.setRotation(1);
   display.setFont(&FreeMonoBold9pt7b);
   if (display.epd2.WIDTH < 104) display.setFont(0);
-  display.setTextColor(GxEPD_WHITE);
+  display.setTextColor(GxEPD_BLACK);
   int16_t tbx, tby; uint16_t tbw, tbh;
   display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
   // center bounding box by transposition of origin:
@@ -620,9 +630,47 @@ void showPartialUpdate()
   }
 }
 
+void drawGrid()
+{
+  uint16_t x, y;
+  display.firstPage();
+  do
+  {
+    x = 0;
+    do
+    {
+      display.drawLine(x, 0, x, display.height() - 1, GxEPD_BLACK);
+      x += 10;
+    }
+    while (x < display.width());
+    y = 0;
+    do
+    {
+      display.drawLine(0, y, display.width() - 1, y, GxEPD_BLACK);
+      y += 10;
+    }
+    while (y < display.height());
+    x = 0;
+    do
+    {
+      display.fillCircle(x, display.height() / 2, 3, GxEPD_BLACK);
+      x += 50;
+    }
+    while (x <= display.width());
+    y = 0;
+    do
+    {
+      display.fillCircle(display.width() / 2, y, 3, GxEPD_BLACK);
+      y += 50;
+    }
+    while (y <= display.height());
+  }
+  while (display.nextPage());
+}
 
 void drawBitmaps()
 {
+  display.setRotation(0);
   display.setFullWindow();
 #ifdef _GxBitmaps80x128_H_
   drawBitmaps80x128();
@@ -633,14 +681,29 @@ void drawBitmaps()
 #ifdef _GxBitmaps104x212_H_
   drawBitmaps104x212();
 #endif
+#ifdef _GxBitmaps200x200_H_
+  drawBitmaps200x200();
+#endif
 #ifdef _GxBitmaps128x250_H_
   drawBitmaps128x250();
 #endif
 #ifdef _GxBitmaps128x296_H_
   drawBitmaps128x296();
 #endif
+#ifdef _GxBitmaps168x384_H_
+  drawBitmaps168x384();
+#endif
+#ifdef _GxBitmaps152x296_H_
+  drawBitmaps152x296();
+#endif
+#ifdef _GxBitmaps240x320_H_
+  drawBitmaps240x320();
+#endif
 #ifdef _GxBitmaps176x264_H_
   drawBitmaps176x264();
+#endif
+#ifdef _GxBitmaps240x416_H_
+  drawBitmaps240x416();
 #endif
 #ifdef _GxBitmaps400x300_H_
   drawBitmaps400x300();
@@ -651,11 +714,20 @@ void drawBitmaps()
 #ifdef _GxBitmaps648x480_H_
   drawBitmaps648x480();
 #endif
+#if defined(ESP32) && defined(_GxBitmaps800x276_H_)
+  drawBitmaps800x276();
+#endif
 #ifdef _GxBitmaps800x480_H_
   drawBitmaps800x480();
 #endif
 #ifdef _WS_Bitmaps800x600_H_
   drawBitmaps800x600();
+#endif
+#if defined(ESP32) && defined(_GxBitmaps960x640_H_)
+  drawBitmaps960x640();
+#endif
+#if defined(ESP32) && defined(_GxBitmaps960x680_H_)
+  drawBitmaps960x680();
 #endif
 #if defined(ESP32) && defined(_GxBitmaps1304x984_H_)
   drawBitmaps1304x984();
@@ -664,23 +736,26 @@ void drawBitmaps()
 #ifdef _GxBitmaps3c104x212_H_
   drawBitmaps3c104x212();
 #endif
+#ifdef _GxBitmaps3c200x200_H_
+  drawBitmaps3c200x200();
+#endif
 #ifdef _GxBitmaps3c128x250_H_
   drawBitmaps3c128x250();
 #endif
 #ifdef _GxBitmaps3c128x296_H_
   drawBitmaps3c128x296();
 #endif
-#ifdef _GxBitmaps152x296_H_
-  drawBitmaps152x296();
+#ifdef _GxBitmaps3c152x296_H_
+  drawBitmaps3c152x296();
 #endif
 #ifdef _GxBitmaps3c176x264_H_
   drawBitmaps3c176x264();
 #endif
-#ifdef _GxBitmaps240x416_H_
-  drawBitmaps240x416();
-#endif
 #ifdef _GxBitmaps3c400x300_H_
   drawBitmaps3c400x300();
+#endif
+#ifdef _GxBitmaps3c648x480_H_
+  drawBitmaps3c648x480();
 #endif
 #ifdef _GxBitmaps3c800x480_H_
   drawBitmaps3c800x480();
@@ -688,20 +763,57 @@ void drawBitmaps()
 #ifdef _GxBitmaps3c880x528_H_
   drawBitmaps3c880x528();
 #endif
+#if defined(ESP32) && defined(_GxBitmaps3c960x640_H_)
+  drawBitmaps3c960x640();
+#endif
+#if defined(ESP32) && defined(_GxBitmaps3c960x680_H_)
+  drawBitmaps3c960x680();
+#endif
+#if defined(ESP32) && defined(_GxBitmaps1360x480_H_)
+  drawBitmaps1360x480();
+#endif
+  // 3-color
+#if defined(ESP32) && defined(_GxBitmaps3c800x276_H_)
+  drawBitmaps3c800x276();
+#endif
+  // 4-color
+#if defined(_GxBitmaps4c128x250_H_)
+  drawBitmaps4c128x250();
+#endif
+#if defined(_WS_Bitmaps4c168x168_H_)
+  drawBitmaps4c168x168();
+#endif
+#if defined(_GxBitmaps4c168x384_H_)
+  drawBitmaps4c168x384();
+#endif
+#if defined(_GxBitmaps4c184x360_H_)
+  drawBitmaps4c184x360();
+#endif
+#if defined(_GxBitmaps4c400x300_H_)
+  drawBitmaps4c400x300();
+#endif
+#if defined(_GxBitmaps4c960x640_H_)
+  drawBitmaps4c960x640();
+#endif
+#if defined(ESP32) && defined(_GxBitmaps4c792x272_H_)
+  drawBitmaps4c792x272();
+#endif
+  // 7-color
+#if defined(_GxBitmaps7c600x448_H_)
+  drawBitmaps7c600x448();
+#endif
 #if defined(_WS_Bitmaps7c192x143_H_)
   drawBitmaps7c192x143();
 #endif
-  if ((display.epd2.WIDTH >= 200) && (display.epd2.HEIGHT >= 200))
-  {
-    // show these after the specific bitmaps
-#ifdef _GxBitmaps200x200_H_
-    drawBitmaps200x200();
+#if defined(_GxBitmaps7c800x480_H_)
+  drawBitmaps7c800x480();
 #endif
-    // 3-color
-#ifdef _GxBitmaps3c200x200_H_
-    drawBitmaps3c200x200();
+#if defined(_WS_Bitmaps7c300x180_H_)
+  drawBitmaps7c300x180();
 #endif
-  }
+#if defined(ESP32) && defined(_GxBitmaps3c1304x984_H_)
+  drawBitmaps3c1304x984();
+#endif
 }
 
 #ifdef _GxBitmaps80x128_H_
@@ -799,6 +911,7 @@ void drawBitmaps200x200()
     //logo200x200, first200x200, second200x200, fourth200x200, third200x200, fifth200x200, sixth200x200, senventh200x200, eighth200x200 // ED037TC1 test
   };
 #endif
+  if (display.epd2.hasColor) return; // to avoid many long refreshes
   if ((display.epd2.WIDTH == 200) && (display.epd2.HEIGHT == 200) && !display.epd2.hasColor)
   {
     bool m = display.mirror(true);
@@ -960,6 +1073,39 @@ void drawBitmaps128x296()
 }
 #endif
 
+#ifdef _GxBitmaps168x384_H_
+void drawBitmaps168x384()
+{
+#if !defined(__AVR)
+  const unsigned char* bitmaps[] =
+  {
+    Bitmap168x384_1, Bitmap168x384_2, Bitmap168x384_3, Bitmap168x384_4, Bitmap168x384_5
+  };
+#else
+  const unsigned char* bitmaps[] =
+  {
+    Bitmap168x384_1
+  };
+#endif
+  if ((display.epd2.WIDTH == 168) && (display.epd2.HEIGHT == 384) && !display.epd2.hasColor)
+  {
+    bool mirrored = display.mirror(true);
+    for (uint16_t i = 0; i < sizeof(bitmaps) / sizeof(char*); i++)
+    {
+      display.firstPage();
+      do
+      {
+        display.fillScreen(GxEPD_WHITE);
+        display.drawInvertedBitmap(0, 0, bitmaps[i], 168, 384, GxEPD_BLACK);
+      }
+      while (display.nextPage());
+      delay(2000);
+    }
+    display.mirror(mirrored);
+  }
+}
+#endif
+
 #ifdef _GxBitmaps152x296_H_
 void drawBitmaps152x296()
 {
@@ -983,6 +1129,37 @@ void drawBitmaps152x296()
       {
         display.fillScreen(GxEPD_WHITE);
         display.drawInvertedBitmap(0, 0, bitmaps[i], 152, 296, GxEPD_BLACK);
+      }
+      while (display.nextPage());
+      delay(2000);
+    }
+  }
+}
+#endif
+
+#ifdef _GxBitmaps240x320_H_
+void drawBitmaps240x320()
+{
+#if !defined(__AVR)
+  const unsigned char* bitmaps[] =
+  {
+    Bitmap240x320_1, Bitmap240x320_2, Bitmap240x320_3, Bitmap240x320_4, Bitmap240x320_5
+  };
+#else
+  const unsigned char* bitmaps[] =
+  {
+    Bitmap240x320_1, Bitmap240x320_2
+  };
+#endif
+  if ((display.epd2.WIDTH == 240) && (display.epd2.HEIGHT == 320) && !display.epd2.hasColor)
+  {
+    for (uint16_t i = 0; i < sizeof(bitmaps) / sizeof(char*); i++)
+    {
+      display.firstPage();
+      do
+      {
+        display.fillScreen(GxEPD_WHITE);
+        display.drawInvertedBitmap(0, 0, bitmaps[i], 240, 320, GxEPD_BLACK);
       }
       while (display.nextPage());
       delay(2000);
@@ -1137,10 +1314,40 @@ void drawBitmaps648x480()
 }
 #endif
 
+#if defined(ESP32) && defined(_GxBitmaps800x276_H_)
+void drawBitmaps800x276()
+{
+  if ((display.epd2.WIDTH == 792) && (display.epd2.HEIGHT == 272) && !display.epd2.hasColor)
+  {
+    display.drawImage(Bitmap800x276_1, 0, 0, 800, 272, true, false, true); delay(2000);
+    display.drawImage(Bitmap800x276_2, 0, 0, 800, 272, true, false, true); delay(2000);
+    display.drawImage(Bitmap800x276_3, 0, 0, 800, 272, true, false, true); delay(2000);
+    display.clearScreen();
+    int16_t wp = display.epd2.WIDTH / 5;
+    int16_t hp = display.epd2.HEIGHT / 5;
+    for (int16_t i = 0; i < 5; i++)
+    {
+      for (int16_t j = 0; j < 5; j++)
+      {
+        display.writeImagePart(Bitmap800x276_1, i * wp, j * hp, 800, 272, i * wp, j * hp, wp, hp, true, false, true);
+        display.refresh(true);
+        display.epd2.writeImagePartAgain(Bitmap800x276_1, i * wp, j * hp, 800, 272, i * wp, j * hp, wp, hp, true, false, true);
+        delay(500);
+      }
+    }
+  }
+}
+#endif
+
 #ifdef _GxBitmaps800x480_H_
 void drawBitmaps800x480()
 {
-#if !defined(__AVR)
+#if defined(ARDUINO_UNOR4_MINIMA) || defined(ARDUINO_UNOR4_WIFI)
+  const unsigned char* bitmaps[] =
+  {
+    Bitmap800x480_3, Bitmap800x480_4
+  };
+#elif !defined(__AVR)
   const unsigned char* bitmaps[] =
   {
     Bitmap800x480_1, Bitmap800x480_2, Bitmap800x480_3, Bitmap800x480_4
@@ -1148,7 +1355,7 @@ void drawBitmaps800x480()
 #else
   const unsigned char* bitmaps[] = {}; // not enough code space
 #endif
-  if ((display.epd2.WIDTH == 800) && (display.epd2.HEIGHT == 480))
+  if ((display.epd2.WIDTH == 800) && (display.epd2.HEIGHT == 480) && !display.epd2.hasColor)
   {
     for (uint16_t i = 0; i < sizeof(bitmaps) / sizeof(char*); i++)
     {
@@ -1161,12 +1368,35 @@ void drawBitmaps800x480()
       while (display.nextPage());
       delay(2000);
     }
-    if (display.epd2.panel == GxEPD2::GDEW075T7)
+    if ((display.epd2.panel == GxEPD2::GDEW075T7) || (display.epd2.panel == GxEPD2::GDEY075T7))
     {
       // avoid ghosting caused by OTP waveform
       display.clearScreen();
       display.refresh(false); // full update
     }
+  }
+}
+#endif
+
+#if defined(ESP32) && defined(_GxBitmaps960x640_H_)
+void drawBitmaps960x640()
+{
+  if ((display.epd2.WIDTH == 960) && (display.epd2.HEIGHT == 640) && !display.epd2.hasColor)
+  {
+    display.drawImage(Bitmap960x640_1, 0, 0, 960, 640, false, true, true); delay(5000);
+    display.drawImage(Bitmap960x640_2, 0, 0, 960, 640, false, true, true); delay(5000);
+    display.drawImage(Bitmap960x640_3, 0, 0, 960, 640, false, true, true); delay(5000);
+  }
+}
+#endif
+
+#if defined(ESP32) && defined(_GxBitmaps960x680_H_)
+void drawBitmaps960x680()
+{
+  if ((display.epd2.WIDTH == 960) && (display.epd2.HEIGHT == 680) && !display.epd2.hasColor)
+  {
+    display.drawImage(Bitmap960x680_1, 0, 0, 960, 680, false, true, true); delay(5000);
+    display.drawImage(Bitmap960x680_2, 0, 0, 960, 680, false, true, true); delay(5000);
   }
 }
 #endif
@@ -1197,6 +1427,35 @@ void drawBitmaps1304x984()
   if (display.epd2.panel == GxEPD2::GDEW1248T3)
   {
     display.drawImage(Bitmap1304x984, 0, 0, display.epd2.WIDTH, display.epd2.HEIGHT, false, false, true);
+  }
+}
+#endif
+
+#if defined(ESP32) && defined(_GxBitmaps1360x480_H_)
+void drawBitmaps1360x480()
+{
+  if (display.epd2.panel == GxEPD2::GDEM1085T51)
+  {
+    display.drawImage(Bitmap1360x480_1, 0, 0, display.epd2.WIDTH, display.epd2.HEIGHT, false, false, true);
+    delay(2000);
+    display.drawImage(Bitmap1360x480_p1, 0, 0, display.epd2.WIDTH, display.epd2.HEIGHT, false, false, true);
+    delay(1000);
+    display.drawImage(Bitmap1360x480_p2, 0, 0, display.epd2.WIDTH, display.epd2.HEIGHT, false, false, true);
+    delay(1000);
+    display.drawImage(Bitmap1360x480_p3, 0, 0, display.epd2.WIDTH, display.epd2.HEIGHT, false, false, true);
+    delay(1000);
+    display.clearScreen();
+    int16_t wp = display.epd2.WIDTH / 5;
+    int16_t hp = display.epd2.HEIGHT / 5;
+    for (int16_t i = 0; i < 5; i++)
+    {
+      for (int16_t j = 0; j < 5; j++)
+      {
+        display.writeImagePart(Bitmap1360x480_1, i * wp, j * hp, 1360, 480, i * wp, j * hp, wp, hp, false, false, true);
+        display.refresh(true);
+        delay(500);
+      }
+    }
   }
 }
 #endif
@@ -1406,6 +1665,33 @@ void drawBitmaps3c128x296()
 }
 #endif
 
+#ifdef _GxBitmaps3c152x296_H_
+void drawBitmaps3c152x296()
+{
+  bitmap_pair bitmap_pairs[] =
+  {
+    {Bitmap3c152x296_black, Bitmap3c152x296_red}
+  };
+  if (display.epd2.panel == GxEPD2::GDEY0266Z90)
+  {
+    bool mirrored = display.mirror(true);
+    for (uint16_t i = 0; i < sizeof(bitmap_pairs) / sizeof(bitmap_pair); i++)
+    {
+      display.firstPage();
+      do
+      {
+        display.fillScreen(GxEPD_WHITE);
+        display.drawBitmap(0, 0, bitmap_pairs[i].black, 152, 296, GxEPD_BLACK);
+        display.drawInvertedBitmap(0, 0, bitmap_pairs[i].red, 152, 296, GxEPD_RED);
+      }
+      while (display.nextPage());
+      delay(2000);
+    }
+    display.mirror(mirrored);
+  }
+}
+#endif
+
 #ifdef _GxBitmaps3c176x264_H_
 void drawBitmaps3c176x264()
 {
@@ -1439,12 +1725,14 @@ void drawBitmaps3c400x300()
   {
     {Bitmap3c400x300_1_black, Bitmap3c400x300_1_red},
     {Bitmap3c400x300_2_black, Bitmap3c400x300_2_red},
-    {WS_Bitmap3c400x300_black, WS_Bitmap3c400x300_red}
+    {WS_Bitmap3c400x300_black, WS_Bitmap3c400x300_red},
+    {Bitmap3c400x300_3_black, Bitmap3c400x300_3_red},
+    {Bitmap3c400x300_4_black, Bitmap3c400x300_4_red},
   };
 #else
   bitmap_pair bitmap_pairs[] = {}; // not enough code space
 #endif
-  if (display.epd2.panel == GxEPD2::GDEW042Z15)
+  if ((display.epd2.WIDTH == 400) && (display.epd2.HEIGHT == 300) && display.epd2.hasColor)
   {
     for (uint16_t i = 0; i < sizeof(bitmap_pairs) / sizeof(bitmap_pair); i++)
     {
@@ -1456,6 +1744,66 @@ void drawBitmaps3c400x300()
         display.drawInvertedBitmap(0, 0, bitmap_pairs[i].red, display.epd2.WIDTH, display.epd2.HEIGHT, GxEPD_RED);
       }
       while (display.nextPage());
+      delay(2000);
+    }
+  }
+}
+#endif
+
+#ifdef _GxBitmaps3c648x480_H_
+void drawBitmaps3c648x480()
+{
+#if !defined(__AVR)
+  bitmap_pair bitmap_pairs[] =
+  {
+    {Bitmap3c648x480_black, Bitmap3c648x480_red},
+    {Bitmap3c648x480_black_2, Bitmap3c648x480_red_2}
+  };
+#else
+  bitmap_pair bitmap_pairs[] = {}; // not enough code space
+#endif
+  if ((display.epd2.panel == GxEPD2::GDEW0583Z83) || (display.epd2.panel == GxEPD2::GDEQ0583Z31))
+  {
+    for (uint16_t i = 0; i < sizeof(bitmap_pairs) / sizeof(bitmap_pair); i++)
+    {
+      display.firstPage();
+      do
+      {
+        display.fillScreen(GxEPD_WHITE);
+        display.drawBitmap(0, 0, bitmap_pairs[i].black, 648, 480, GxEPD_BLACK);
+        display.drawBitmap(0, 0, bitmap_pairs[i].red, 648, 480, GxEPD_RED);
+      }
+      while (display.nextPage());
+      delay(2000);
+    }
+  }
+}
+#endif
+
+#if defined(ESP32) && defined(_GxBitmaps3c800x276_H_)
+void drawBitmaps3c800x276()
+{
+  if ((display.epd2.WIDTH == 792) && (display.epd2.HEIGHT == 272) && display.epd2.hasColor)
+  {
+    display.drawImage(Bitmap3c800x276_black_1, Bitmap3c800x276_red_1, 0, 0, 800, 272, true, false, true); delay(2000);
+    display.drawImage(Bitmap3c800x276_black_2, Bitmap3c800x276_red_2, 0, 0, 800, 272, true, false, true); delay(2000);
+    int16_t wp = display.epd2.WIDTH / 5;
+    int16_t hp = display.epd2.HEIGHT / 5;
+    int16_t n = 0;
+    for (int16_t k = 0; k < 3; k++)
+    {
+      display.writeScreenBuffer();
+      for (int16_t i = 0; i < 5; i++)
+      {
+        for (int16_t j = 0; j < 5; j++)
+        {
+          if ((n++ % 2) || (k == 2))
+          {
+            display.writeImagePart(Bitmap3c800x276_black_1, Bitmap3c800x276_red_1, i * wp, j * hp, 800, 272, i * wp, j * hp, wp, hp, true, false, true);
+          }
+        }
+      }
+      display.refresh(false);
       delay(2000);
     }
   }
@@ -1522,12 +1870,193 @@ void drawBitmaps3c880x528()
 }
 #endif
 
+#if defined(ESP32) && defined(_GxBitmaps3c960x640_H_)
+void drawBitmaps3c960x640()
+{
+  if ((display.epd2.WIDTH == 960) && (display.epd2.HEIGHT == 640) && display.epd2.hasColor)
+  {
+    display.drawImage(Bitmap3c960x640_black, Bitmap3c960x640_red, 0, 0, 960, 640, false, false, true);
+    delay(2000);
+  }
+}
+#endif
+
+#if defined(ESP32) && defined(_GxBitmaps3c960x680_H_)
+void drawBitmaps3c960x680()
+{
+  if ((display.epd2.WIDTH == 960) && (display.epd2.HEIGHT == 680) && display.epd2.hasColor)
+  {
+    display.drawImage(Bitmap3c960x680_black, Bitmap3c960x680_red, 0, 0, 960, 680, false, true, true);
+  }
+  delay(2000);
+}
+#endif
+
+#if defined(ESP32) && defined(_GxBitmaps3c1304x984_H_)
+void drawBitmaps3c1304x984()
+{
+  if (display.epd2.panel == GxEPD2::GDEY1248Z51)
+  {
+    //display.drawImage(Bitmap3c1304x984_black, Bitmap3c1304x984_red, 0, 0, 1304, 984, false, false, true);
+    display.writeImage(0, Bitmap3c1304x984_red, 0, 0, 1304, 984, true, false, true); // red bitmap is inverted
+    display.drawImage(Bitmap3c1304x984_black, 0, 0, 0, 1304, 984, true, false, true); // black bitmap is normal
+  }
+}
+#endif
+
+#if defined(_GxBitmaps4c128x250_H_)
+void drawBitmaps4c128x250()
+{
+  if (display.epd2.panel == GxEPD2::GDEY0213F51)
+  {
+    display.drawNative(Bitmap4c128x250, 0, 0, 0, 128, 250, false, false, true);
+    delay(5000);
+  }
+}
+#endif
+
+#if defined(_WS_Bitmaps4c168x168_H_)
+void drawBitmaps4c168x168()
+{
+  if ((display.epd2.panel == GxEPD2::Waveshare437inch4color) || (display.epd2.panel == GxEPD2::Waveshare3inch4color) ||
+      (display.epd2.panel == GxEPD2::GDEY0579F51) || (display.epd2.panel == GxEPD2::GDEY116F51))
+  {
+    display.drawNative(WS_Bitmap4c168x168, 0, (display.epd2.WIDTH - 168) / 2, (display.epd2.HEIGHT - 168) / 2, 168, 168, false, false, true);
+    delay(5000);
+  }
+}
+#endif
+
+#if defined(_WS_Bitmaps4c168x400_H_)
+void drawBitmaps4c168x400()
+{
+  if (display.epd2.panel == GxEPD2::Waveshare3inch4color)
+  {
+    display.drawNative(WS_Bitmap4c168x400, 0, (display.epd2.WIDTH - 168) / 2, (display.epd2.HEIGHT - 400) / 2, 168, 400, false, false, true);
+    delay(5000);
+  }
+}
+#endif
+
+#if defined(_GxBitmaps4c168x384_H_)
+void drawBitmaps4c168x384()
+{
+  if (display.epd2.panel == GxEPD2::GDEY029F51H)
+  {
+    display.drawNative(Bitmap4c168x384, 0, (display.epd2.WIDTH - 168) / 2, (display.epd2.HEIGHT - 384) / 2, 168, 384, false, false, true);
+    delay(5000);
+  }
+}
+#endif
+
+#if defined(_GxBitmaps4c184x360_H_)
+void drawBitmaps4c184x360()
+{
+  if (display.epd2.panel == GxEPD2::GDEY0266F51H)
+  {
+    display.drawNative(Bitmap4c184x360, 0, (display.epd2.WIDTH - 184) / 2, (display.epd2.HEIGHT - 360) / 2, 184, 360, false, false, true);
+    delay(5000);
+  }
+}
+#endif
+
+#if defined(_GxBitmaps4c400x300_H_)
+void drawBitmaps4c400x300()
+{
+  if (display.epd2.panel == GxEPD2::GDEY0420F51)
+  {
+    display.drawNative(Bitmap4c400x300, 0, (display.epd2.WIDTH - 400) / 2, (display.epd2.HEIGHT - 300) / 2, 400, 300, false, false, true);
+    delay(5000);
+  }
+}
+#endif
+
+#if defined(_GxBitmaps4c960x640_H_)
+void drawBitmaps4c960x640()
+{
+  if (display.epd2.panel == GxEPD2::GDEY116F51)
+  {
+    display.drawNative(Bitmap4c960x640, 0, (display.epd2.WIDTH - 960) / 2, (display.epd2.HEIGHT - 640) / 2, 960, 640, true, false, true);
+    delay(5000);
+  }
+}
+#endif
+
+#if defined(ESP32) && defined(_GxBitmaps4c792x272_H_)
+void drawBitmaps4c792x272()
+{
+  if (display.epd2.panel == GxEPD2::GDEY0579F51)
+  {
+    display.drawNative(Bitmap4c792x272, 0, (display.epd2.WIDTH - 792) / 2, (display.epd2.HEIGHT - 272) / 2, 792, 272, true, false, true);
+    delay(5000);
+#if defined(GxEPD2_DRIVER_CLASS) && defined(IS_GxEPD2_DRIVER_4C)
+#if IS_GxEPD2_DRIVER_4C(GxEPD2_DRIVER_CLASS)
+    int16_t wp = display.epd2.WIDTH / 5;
+    int16_t hp = display.epd2.HEIGHT / 5;
+    int16_t n = 0;
+    for (int16_t k = 0; k < 3; k++)
+    {
+      display.writeScreenBuffer();
+      for (int16_t i = 0; i < 5; i++)
+      {
+        for (int16_t j = 0; j < 5; j++)
+        {
+          if ((n++ % 2) || (k == 2))
+          {
+            display.epd2.writeNativePart(Bitmap4c792x272, 0, i * wp, j * hp, 792, 272, i * wp, j * hp, wp, hp, true, false, true);
+          }
+        }
+      }
+      display.refresh(false);
+      delay(2000);
+    }
+#endif
+#endif
+  }
+}
+#endif
+
+#if defined(_GxBitmaps7c600x448_H_)
+void drawBitmaps7c600x448()
+{
+  if (display.epd2.panel == GxEPD2::GDEP0565D90)
+  {
+    display.epd2.drawDemoBitmap(Bitmap7c600x448, 0, 0, 0, 600, 448, 1, false, true);
+    delay(5000);
+  }
+}
+#endif
+
 #if defined(_WS_Bitmaps7c192x143_H_)
 void drawBitmaps7c192x143()
 {
   if (display.epd2.panel == GxEPD2::ACeP565)
   {
     display.drawNative(WS_Bitmap7c192x143, 0, (display.epd2.WIDTH - 192) / 2, (display.epd2.HEIGHT - 143) / 2, 192, 143, false, false, true);
+    delay(5000);
+  }
+}
+#endif
+
+#if defined(_GxBitmaps7c800x480_H_)
+void drawBitmaps7c800x480()
+{
+  if ((display.epd2.panel == GxEPD2::GDEY073D46) || (display.epd2.panel == GxEPD2::ACeP730) || (display.epd2.panel == GxEPD2::GDEP0565D90) || (display.epd2.panel == GxEPD2::GDEP073E01))
+  {
+    display.epd2.drawDemoBitmap(Bitmap7c800x480, 0, 0, 0, 800, 480, 0, false, true); // special format
+    delay(5000);
+    display.epd2.drawDemoBitmap(Bitmap7c800x480_2, 0, 0, 0, 800, 480, 1, false, true); // special format mode 1
+    delay(5000);
+  }
+}
+#endif
+
+#if defined(_WS_Bitmaps7c300x180_H_)
+void drawBitmaps7c300x180()
+{
+  if ((display.epd2.panel == GxEPD2::GDEY073D46) || (display.epd2.panel == GxEPD2::ACeP730) || (display.epd2.panel == GxEPD2::GDEP0565D90))
+  {
+    display.drawNative(WS_Bitmap7c300x180, 0, (display.epd2.WIDTH - 300) / 2, (display.epd2.HEIGHT - 180) / 2, 300, 180, false, false, true);
     delay(5000);
   }
 }
@@ -1583,4 +2112,21 @@ void draw7colorlines()
     display.fillRect(40, y, 2, 2, GxEPD_YELLOW); display.fillRect(50, y, 2, 2, GxEPD_ORANGE);
   }
   while (display.nextPage());
+}
+
+void drawGraphics()
+{
+  display.setRotation(0);
+  display.firstPage();
+  do
+  {
+    display.drawRect(display.width() / 8, display.height() / 8, display.width() * 3 / 4, display.height() * 3 / 4, GxEPD_BLACK);
+    display.drawLine(display.width() / 8, display.height() / 8, display.width() * 7 / 8, display.height() * 7 / 8, GxEPD_BLACK);
+    display.drawLine(display.width() / 8, display.height() * 7 / 8, display.width() * 7 / 8, display.height() / 8, GxEPD_BLACK);
+    display.drawCircle(display.width() / 2, display.height() / 2, display.height() / 4, GxEPD_BLACK);
+    display.drawPixel(display.width() / 4, display.height() / 2 , GxEPD_BLACK);
+    display.drawPixel(display.width() * 3 / 4, display.height() / 2 , GxEPD_BLACK);
+  }
+  while (display.nextPage());
+  delay(1000);
 }
