@@ -20,9 +20,30 @@
 #include <Fonts/FreeMonoBold9pt7b.h>
 #include "bitmaps/Bitmaps1304x984.h" // 12.48" b/w
 
+//#define ESPink_V2     //for version v2.6 and earlier
+#define ESPink_V3     //for version v3.0 and above
+
+#ifdef ESPink_V2
+  //MOSI/SDI    23
+  //CLK/SCK     18
+  //SS/CS       5
+  #define DC    17 
+  #define RST   16  
+  #define BUSY  4 
+  #define POWER 2
+#else ESPink_V3
+  //MOSI/SDI    11
+  //CLK/SCK     12
+  //SS/CS       10
+  #define DC    48 
+  #define RST   45  
+  #define BUSY  36 
+  #define POWER 47
+#endif
+
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_3C<GxEPD2_750c_Z08, GxEPD2_750c_Z08::HEIGHT> display(GxEPD2_750c_Z08(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEY075Z08 800x480, GDEW075Z08
+GxEPD2_3C<GxEPD2_750c_Z08, GxEPD2_750c_Z08::HEIGHT> display(GxEPD2_750c_Z08(SS, DC, RST, BUSY)); // GDEY075Z08 800x480, GDEW075Z08
 
 void setup()
 {
