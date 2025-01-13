@@ -20,7 +20,7 @@ EpdiyHighlevelState hl;
 void idf_loop() {
     EpdRect dragon_area = {.x = 0, .y = 0, .width = dragon_width, .height = dragon_height};
 
-    int temperature = 25;
+    int temperature = 22;
 
     epd_poweron();
     epd_fullclear(&hl, temperature);
@@ -34,7 +34,7 @@ void idf_loop() {
 }
 
 void idf_setup() {
-    epd_init(&DEMO_BOARD, &ED133UT2, EPD_LUT_64K);
+    epd_init(&DEMO_BOARD, &ED047TC2, EPD_LUT_64K); // ED042TC2 ED133UT2
     epd_set_vcom(2230);
     hl = epd_hl_init(EPD_BUILTIN_WAVEFORM);
 }

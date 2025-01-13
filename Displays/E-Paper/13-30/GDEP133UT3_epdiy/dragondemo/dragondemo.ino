@@ -1,7 +1,7 @@
 /* Display dragon test for Good Display GDEP133UT3
  * example from GxEPD2 library is used
  * 
- * Board:   Epdiy V7 (for test need +27V, board has 22V)               https://vroland.github.io/epdiy-hardware/
+ * Board:   Epdiy V7                            https://vroland.github.io/epdiy-hardware/
  *          Good Display Parallel Screen Board  https://www.laskakit.cz/
  * Display: Good Display GDEP133UT3             https://www.laskakit.cz/good-display-gdep133ut3-13-3--1600x1200-parallel-epaper-displej/
  * 
@@ -12,7 +12,7 @@
  *    * Partition Scheme: Default 4MB
  *    * PSRAM: OPI PSRAM
  *
- * - For Good Display Parallel Screen Board:
+ * - For Good Display Parallel Board:
  *    * Board: ESP32 Wrover Module
  *    * Partition Scheme: Default 4MB
  *
