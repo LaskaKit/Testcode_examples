@@ -101,10 +101,13 @@ void setup()
   //drawCornerTest();
   //showBox(16, 16, 48, 32, false);
   //showBox(16, 56, 48, 32, true);
-  display.powerOff();
+  
   deepSleepTest();
 
   drawBitmaps1304x984();
+  delay(1000);
+  display.fillScreen(GxEPD_WHITE);  // white background
+  display.display(false); // update 
   display.powerOff();
 
   Serial.println("setup done");
