@@ -4,7 +4,7 @@
     - OneWire https://github.com/PaulStoffregen/OneWire
     - DallasTemperature https://github.com/milesburton/Arduino-Temperature-Control-Library
 
-  SHT30 sensor attached  as follows:
+  DS18B20 sensor attached  as follows:
   * Arduino Uno:
     ** 
   * LaskaKit ESP-12 Board
@@ -19,7 +19,7 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 //Sensors pin D2
-const int oneWireBus = 4;     
+const int oneWireBus = 10;     
 
 // Setup a oneWire instance to communicate with any OneWire devices
 OneWire oneWire(oneWireBus);
