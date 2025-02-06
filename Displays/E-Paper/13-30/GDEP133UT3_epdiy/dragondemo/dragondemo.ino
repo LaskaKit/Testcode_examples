@@ -1,10 +1,11 @@
 /* Display dragon test for Good Display GDEP133UT3
- * example from GxEPD2 library is used
  * 
  * Board:   Epdiy V7                            https://vroland.github.io/epdiy-hardware/
  *          Good Display Parallel Screen Board  https://www.laskakit.cz/
  * Display: Good Display GDEP133UT3             https://www.laskakit.cz/good-display-gdep133ut3-13-3--1600x1200-parallel-epaper-displej/
  * 
+ * Do not forget to set your VCOM
+ * Use Arduino core for the ESP32 < v3.1.0 (tested on v3.0.7)
  * Set the board correct:
  * - For Epdiy V7:
  *    * Board: ESP32S3 Dev Module

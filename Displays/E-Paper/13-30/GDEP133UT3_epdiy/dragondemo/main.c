@@ -34,7 +34,11 @@ void idf_loop() {
 }
 
 void idf_setup() {
-    epd_init(&DEMO_BOARD, &ED047TC2, EPD_LUT_64K); // ED042TC2 ED133UT2
+    // Choose the board (defined automaticaly beetween )
+    // Set display with waveform: Library now fully compatible only with this ED133UT2 and not GDEP133UT3 display. 
+    // GDEP133UT3 is not fully compatible,  no good waveform and because of it is has grayscale problem )// ED042TC2 ED133UT2
+    // You can try use ED047TC2 instead, but it has smaller resolution.
+    epd_init(&DEMO_BOARD, &ED133UT2, EPD_LUT_64K); // ED047TC2 or ED133UT2
     epd_set_vcom(2230);
     hl = epd_hl_init(EPD_BUILTIN_WAVEFORM);
 }
