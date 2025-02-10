@@ -2,15 +2,16 @@
 
 #include <Wire.h>
 
-#define PIN_ON 47   //47 ESP32-S3 DevKit
+//#define PIN_ON 47   //47 ESP32-S3 DevKit
+#define PIN_ON 2    //2 ESP32 DevKit
 
 void setup(){
   pinMode(PIN_ON, OUTPUT);
   digitalWrite(PIN_ON, HIGH);
   Serial.begin (115200);  
-  //Wire.begin(21, 22);   // ESP32 = sda= GPIO_21 scl= GPIO_22
+  Wire.begin(21, 22);   // ESP32 = sda= GPIO_21 scl= GPIO_22
   //Wire.begin(19, 18);  // ESP-C3 = sda= GPIO_19 scl= GPIO_18
-  Wire.begin(42, 2);  //ESP32-S3
+  //Wire.begin(42, 2);  //ESP32-S3
   //Wire.begin(8, 10);
   //Wire.begin(33, 32);  //ESPLan
   //Wire.setClock(10000L);
