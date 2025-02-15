@@ -51,7 +51,7 @@ void loop() {
     EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
     delay(3000); //Delay for 3s.
     
-  #if 1 //Demonstration of full screen refresh with 180-degree rotation, to enable this feature, please change 0 to 1.
+  #if 0 //Demonstration of full screen refresh with 180-degree rotation, to enable this feature, please change 0 to 1.
       /************Full display(2s)*******************/
       EPD_HW_Init_180(); //Full screen refresh initialization.
       EPD_WhiteScreen_ALL(gImage_BW1,gImage_RW1); //To Display one image using full screen refresh.
