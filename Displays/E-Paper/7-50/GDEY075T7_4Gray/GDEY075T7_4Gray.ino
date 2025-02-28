@@ -17,7 +17,7 @@
 #define ESPink_V3     //for version v3.0 and above
 
 #ifdef ESPink_V2
-  #define MISO  -1
+  #define MISO  -1 
   #define MOSI  23
   #define SCK   18
   #define CS    5
