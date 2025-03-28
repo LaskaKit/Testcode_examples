@@ -1,3 +1,13 @@
+/* Display test for Good Display GDEY075T7
+ * example from bb_epaper library is used https://github.com/bitbank2/bb_epaper 
+ * 
+ * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
+ * Display: Good Display GDEY075T7          https://www.laskakit.cz/good-display-gdey075t7-7-5--800x480-epaper-displej-grayscale/
+ * 
+ * Email:podpora@laskakit.cz
+ * Web:laskakit.cz
+ */
+ 
 #include <OneBitDisplay.h>
 #include <bb_epaper.h>
 #include "Roboto_Thin_48.h"
@@ -6,40 +16,32 @@ ONE_BIT_DISPLAY oled;
 BBEPAPER epd(EP75_800x480);
 int iDataTime, iOpTime;
 
+#define ESPink_V2     //for version v2.6 and earlier
+//#define ESPink_V3     //for version v3.0 and above
+
 #ifdef HAL_ESP32_HAL_H_
 // These values are for the Laska_Kit ESPInk board
 // with a pushbutton and pull down resistor attached
 // to the RX0/TX0 signals exposed on the 8-pin female programming header
-#if defined (ARDUINO_FEATHERS3) || defined(ARDUINO_FEATHERS2)
-#define CS_PIN 5
-#define DC_PIN 6
-#define RESET_PIN 12
-#define BUSY_PIN 14
-#define CLK_PIN 36
-#define MOSI_PIN 35
-#define POWER_PIN 39
+#ifdef ESPink_V2
+#define MOSI_PIN  23
+#define CS_PIN    5
+#define CLK_PIN   18
+#define DC_PIN    17 
+#define RESET_PIN 16  
+#define BUSY_PIN  4 
+#define POWER_PIN 2
 #define BUTTON1 1
 #define BUTTON2 3
-#elif defined (ARDUINO_ESP32C6_DEV) // Our C6 epaper PCB
-#define CS_PIN 2
-#define DC_PIN 3
-#define RESET_PIN 5
-#define BUSY_PIN 4
-#define CLK_PIN 1
-#define MOSI_PIN 0
-#define POWER_PIN -1
-#define BUTTON1 18
-#define BUTTON2 19
-#define SDA_PIN 7
-#define SCL_PIN 6
-#else // must be Laska_Kit ESPInk
-#define CS_PIN 5
-#define DC_PIN 17
-#define RESET_PIN 16
-#define BUSY_PIN 4
-#define CLK_PIN 18
-#define MOSI_PIN 23
-#define POWER_PIN 2
+
+#elif defined ESPink_V3
+#define MOSI_PIN  11
+#define CS_PIN    10
+#define CLK_PIN   12
+#define DC_PIN    48 
+#define RESET_PIN 45  
+#define BUSY_PIN  36 
+#define POWER_PIN 47
 #define BUTTON1 1
 #define BUTTON2 3
 #endif
@@ -394,9 +396,9 @@ void ShowTime(void)
 } /* ShowTime() */
 
 void setup() {
-//  Serial.begin(115200);
-//  delay(3000);
-//  Serial.println("Starting...");
+  Serial.begin(115200);
+  delay(3000);
+  Serial.println("Starting...");
 #ifdef SDA_PIN
   oled.setI2CPins(SDA_PIN, SCL_PIN);
 #endif
