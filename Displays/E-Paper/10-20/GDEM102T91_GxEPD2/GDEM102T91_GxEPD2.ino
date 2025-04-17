@@ -22,8 +22,8 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-#define ESPink_V2     //for version v2.6 and earlier
-//#define ESPink_V3     //for version v3.0 and above
+//#define ESPink_V2     //for version v2.6 and earlier
+#define ESPink_V3     //for version v3.0 and above
 
 #ifdef ESPink_V2
   //MOSI/SDI    23

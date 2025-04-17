@@ -1,8 +1,8 @@
-/* Display test for Good Display GDEY075T7
+/* Display test for Good Display GDEM102T91
  * example from Good Display is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEY075T7          https://www.laskakit.cz/good-display-gdey075t7-7-5--800x480-epaper-displej-grayscale/
+ * Display: Good Display GDEM102T91          https://www.laskakit.cz/good-display-gdeq102t90-10-2--960x640-epaper-displej/
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
@@ -14,7 +14,7 @@
 
 #include "Display_EPD_W21_spi.h"
 #include "Display_EPD_W21.h"
-#include "Ap_29demo_2.h"  
+#include "Ap_29demo.h"  
 
 void setup() {
 
@@ -33,6 +33,7 @@ void setup() {
    SPI.begin (SCK, MISO, MOSI, CS);  
 }
 
+
 //Tips//
 /*
 1.Flickering is normal when EPD is performing a full screen update to clear ghosting from the previous image so to ensure better clarity and legibility for the new image.
@@ -44,28 +45,40 @@ void setup() {
 */
 void loop() {
    unsigned char i;
-#if 1 //Full screen refresh, fast refresh, and partial refresh demostration.
 
-      EPD_Init(); //Full screen refresh initialization.
+#if 1 //Full screen refresh, fast refresh, and partial refresh demostration.
+      EPD_HW_Init(); //Full screen refresh initialization.
       EPD_WhiteScreen_White(); //Clear screen function.
       EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
       delay(2000); //Delay for 2s. 
-
      /************Full display(2s)*******************/
-      EPD_Init(); //Full screen refresh initialization.
+      EPD_HW_Init(); //Full screen refresh initialization.
       EPD_WhiteScreen_ALL(gImage_1); //To Display one image using full screen refresh.
       EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-      delay(2000); //Delay for 2s.
+      delay(2000); //Delay for 2s. 
             
-      /************Fast refresh mode(1.5s)*******************/
-      #if 0 
-         EPD_Init_Fast(); //Fast refresh initialization.
-         EPD_WhiteScreen_ALL_Fast(gImage_1); //To display one image using fast refresh.
-         EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-         delay(2000); //Delay for 2s.
-      #endif
+  #if 1 //Partial refresh demostration.
+  //Partial refresh demo support displaying a clock at 5 locations with 00:00.  If you need to perform partial refresh more than 5 locations, please use the feature of using partial refresh at the full screen demo.
+  //After 5 partial refreshes, implement a full screen refresh to clear the ghosting caused by partial refreshes.
+  //////////////////////Partial refresh time demo/////////////////////////////////////
+      EPD_HW_Init(); //Electronic paper initialization  
+      EPD_SetRAMValue_BaseMap(gImage_basemap); //Partial refresh background color     
+      for(i=0;i<6;i++)
+      EPD_Dis_Part_Time(  696+32*1,272,(unsigned char *)&Num[1],            //x-A,y-A,DATA-A
+                          696+32*2,272,(unsigned char *)&Num[0],         //x-B,y-B,DATA-B
+                          696+32*3,272,(unsigned char *)gImage_numdot,      //x-C,y-C,DATA-C
+                          696+32*4,272,(unsigned char *)&Num[0],        //x-D,y-D,DATA-D
+                          696+32*5,272,(unsigned char *)&Num[i],32,64); //x-E,y-E,DATA-E,Resolution 32*64
+    
+      EPD_DeepSleep();  //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
+      delay(2000); //Delay for 2s.
+      EPD_HW_Init(); //Full screen refresh initialization.
+      EPD_WhiteScreen_White(); //Clear screen function.
+      EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
+      delay(2000); //Delay for 2s.
+  #endif
 #endif
- while(1);  // The program stops here   
+    while(1); // The program stops here
 }
 
 
