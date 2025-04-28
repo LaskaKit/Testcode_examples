@@ -1,114 +1,87 @@
-// Multifunkční půdní sonda, PH, NPK, vodivost, teplota a vlhkost RS485 LA131155 - Arduino UNO
+/* Test code for Multifunctional soil probe ZTS-3000-TR-WS-N01, temperature and humidity RS485
+ * 
+ * Board:   LaskaKit ESPlan ESP32 LAN8720A RS485 PoE        https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
+ * Sensor: Multifunctional soil probe ZTS-3000-TR-WS-N01, 
+ *          temperature and humidity RS485                  https://www.laskakit.cz/multifunkcni-pudni-sonda-zts-3000-tr-ws-n01--teplota-a-vlhkost-rs485/
+ * 
+ * Email:podpora@laskakit.cz
+ * Web:laskakit.cz
+ */
 
-#include <SoftwareSerial.h>
+//#define DEBUG
 
-#define rxPin 3
-#define txPin 2
+byte getMoiTemp[] = {0x01, 0x03, 0x00, 0x00, 0x00, 0x02};
 
-SoftwareSerial ser485(rxPin, txPin);
-
-const byte inq1[] = {0x01, 0x03, 0x00, 0x00, 0x00, 0x06, 0xC5, 0xC8}; // dotaz na adresu 1
-const byte inq2[] = {0x02, 0x03, 0x00, 0x00, 0x00, 0x06, 0xC5, 0xFB};  // dotaz na adresu 2
-const byte ch_addr[] = {0x01, 0x06, 0x07, 0xD0, 0x00, 0x02, 0x08, 0x86}; // command pro nastaveni adresy 2 z puvodni 1
-const byte ch_spd_2400[] = {0x01, 0x06, 0x07, 0xD1, 0x00, 0x00, 0xD8, 0x87}; // command pro nastaveni rychlosti komunikace na 2400b adresa senzoru 1
-const byte ch_spd_4800[] = {0x01, 0x06, 0x07, 0xD1, 0x00, 0x01, 0x19, 0x47}; // command pro nastaveni rychlosti komunikace na 4800b adresa senzoru 1
-const byte ch_spd_9600[] = {0x01, 0x06, 0x07, 0xD1, 0x00, 0x02, 0x59, 0x46}; // command pro nastaveni rychlosti komunikace na 9600b adresa senzoru 1
-const byte inq_er[] = {0xFF, 0x03, 0x00, 0x00, 0x00, 0x06, 0xD0, 0x16};  // emergency dotaz, kdyz neni znama adresa. musi byt pripojen jen jeden senzor
-
-//const byte ch_addr2[] = {0x01, 0x06, 0x07, 0xD0, 0x00, 0x02}; // command pro nastaveni adresy 2 bez crc
-
-void setup(){
-  pinMode(rxPin, INPUT);
-  pinMode(txPin, OUTPUT);
-    
-  ser485.begin(4800);
+void setup() {
   Serial.begin(115200);
+  Serial1.begin(4800, SERIAL_8N1, 36, 4);
 
-  //Serial.println(calcCRC(ch_addr2, sizeof(ch_addr2)), HEX);  // vypocet crc
-  //ser485.write(ch_addr, sizeof(ch_addr));  // nastaveni adresy snimace
-
-  delay(1000);
 }
 
-void loop(){
-  //while (Serial.available() > 0) {
-  //  String comm = Serial.readStringUntil('\n');
-  //  if(comm == "print"){
-      getData(inq1, sizeof(inq1));
-      delay(50);
-      Serial.println();
-      getData(inq2, sizeof(inq2));
-      Serial.println("..............................");
-  //  }
-  //}
-  //Serial.println();
-  delay(1000);
+void loop() {
+  byte rcv[20];
+  getData(getMoiTemp, sizeof(getMoiTemp), rcv);
+
+#ifdef DEBUG
+  Serial.print("RCV data: ");
+  for (int ii=0; ii<9; ii++){
+    char buffi[2];
+    sprintf(buffi, "%02X", rcv[ii]);
+    Serial.print(buffi);
+    Serial.print(" "); 
+  }
+  Serial.println();
+#endif
+
+  float moi;
+  moi = ((rcv[3] << 8) | rcv[4]) / 10.0;
+
+  float temp;
+  temp = ((rcv[5] << 8) | rcv[6]) / 10.0;
+
+  Serial.print("Vlhkost: ");
+  Serial.print(moi);
+  Serial.print("% Teplota: ");
+  Serial.print(temp);
+  Serial.println("°C");
+  delay(2000);
 }
 
-void getData(byte d[], int i){
-  byte values[17];
+void getData(byte d[], int i, byte rcv[]){
   byte crc[2];
-  byte data[15];
-  
-  if(ser485.write(d, i) == 8){
-    for(uint8_t i=0; i<17; i++){
-      values[i] = ser485.read();
-      if(i < 15){
-        data[i] = values[i];
-        //Serial.print(values[i], HEX);
-        //Serial.print(" ");
-      }else{
-        if (i == 15) crc[0] = values[i];
-        if (i == 16) crc[1] = values[i];
+  byte dat[5];
+  uint16_t crcc = calcCRC(d, i);
+  uint8_t crc_l = (uint8_t)(crcc >> 8);
+  uint8_t crc_h = (uint8_t)crcc;
+  d[6] = crc_h;
+  d[7] = crc_l;
+
+  i = i + 2;
+
+#ifdef DEBUG
+  Serial.print("Send cmd: ");
+  for (int ii=0; ii<i; ii++) {
+    char buffo[2];
+    sprintf(buffo, "%02X", d[ii]);
+    Serial.print(buffo);
+    Serial.print(" ");
+  }
+  Serial.println();
+#endif
+
+  if(Serial1.write(d, i) == 8){
+    delay(50);
+    if (Serial1.available()) {
+      int y = 0;
+      while(Serial1.available() > 0){
+        rcv[y] = Serial1.read();
+        y++;
       }
+    }else{
+      Serial.println("NO DATA");
+      return;
     }
-    //Serial.println();
-  }else{
-    Serial.println("NO DATA");
-    return;
   }
-
-  if (values[0] == 255){
-    Serial.println("Sensor Not Found!");
-    return;
-  }
-
-  if ((((uint16_t)crc[1] << 8) | (uint16_t)crc[0]) != calcCRC(data, sizeof(data))){
-    Serial.print("Sensor ID: ");
-    Serial.print(values[0]);
-    Serial.println(": CRC FAIL!");
-    return;
-  }
-
-  int16_t val;
-
-  Serial.print("Sensor ID: ");
-  Serial.println(values[0]);
-  Serial.println("------------------------");
-                          
-  //0 index 3     moisture content
-  val = (values[3] << 8) + values[4];
-  Serial.print( "Humidity....: " ); Serial.print( (float)val/10.0, 1 ); Serial.println("%");
-  
-  //1 index 5     temperature
-  val = (values[5] << 8) + values[6];
-  Serial.print( "Temperature.: " ); Serial.print( (float)val/10.0, 1 ); Serial.println("°C");
-
-  //2 index 7     conductivity
-  val = (values[7] << 8) + values[8];
-  Serial.print( "Conductivity: " ); Serial.print( val ); Serial.println("us/cm");
-
-  //3 index 9     PH
-  val = (values[9] << 8) + values[10];
-  Serial.print( "pH..........: " ); Serial.print( (float)val/10.0 ); Serial.println("");
-
-  //4 index 11    nitrogen content
-  val = (values[11] << 8) + values[12];
-  Serial.print( "Nitrogen....: " ); Serial.print( val ); Serial.println("ul");
-  
-  //5 index 13    phosphorus content
-  val = (values[13] << 8) + values[14];
-  Serial.print( "Phosphorus..: " ); Serial.print( val ); Serial.println("ul");
 }
 
 unsigned short calcCRC(const unsigned char *indata, int len){
