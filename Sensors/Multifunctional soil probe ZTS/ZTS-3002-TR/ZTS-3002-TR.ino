@@ -1,4 +1,13 @@
-// Multifunkční půdní sonda, PH, NPK, vodivost, teplota a vlhkost RS485 LA131155 - Arduino UNO
+/* Test code for Multifunctional soil probe ZTS-3002-TR-ECTHNPKPH-N01, PH, NPK, conductivity, temperature and humidity RS485
+ * 
+ * Board:   LaskaKit UNO R3, ATmega328P                                     https://www.laskakit.cz/arduino-uno-r3--atmega328p--precizni-klon/
+ *          TTL to RS 485, MAX485 converter                                 https://www.laskakit.cz/prevodnik-ttl-na-rs-485--max485/
+ * Sensor: Multifunctional soil probe ZTS-3002-TR-ECTHNPKPH-N01, PH, NPK, 
+ *          conductivity, temperature and humidity RS485                    https://www.laskakit.cz/multifunkcni-pudni-sonda-zts-3000-tr-ws-n01--teplota-a-vlhkost-rs485/
+ * 
+ * Email:podpora@laskakit.cz
+ * Web:laskakit.cz
+ */
 
 #include <SoftwareSerial.h>
 
