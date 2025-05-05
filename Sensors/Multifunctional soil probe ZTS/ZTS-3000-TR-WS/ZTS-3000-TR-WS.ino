@@ -49,7 +49,6 @@ void loop() {
 
 void getData(byte d[], int i, byte rcv[]){
   byte crc[2];
-  byte dat[5];
   uint16_t crcc = calcCRC(d, i);
   uint8_t crc_l = (uint8_t)(crcc >> 8);
   uint8_t crc_h = (uint8_t)crcc;
