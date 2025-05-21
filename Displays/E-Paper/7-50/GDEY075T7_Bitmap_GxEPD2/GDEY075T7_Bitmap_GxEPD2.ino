@@ -1,4 +1,4 @@
-/* test Display test with bitmaps for Good Display GDEY075T7
+/* Display test with bitmaps for Good Display GDEY075T7
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
