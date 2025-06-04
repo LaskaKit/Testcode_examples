@@ -1,29 +1,32 @@
-/* 
- *  This example code is for PDi 7.4" BWR EPD on EXT2 board which is verified by TI Launchpad MSP-EXP432P401R(red PCB).
- *  For more information about PDi EPD and EXT2 board, please visit 
- *  http://www.pervasivedisplays.com/
- *  http://www.pervasivedisplays.com/kits/ext2_kit
+/* Display test for Pervasive Displays E2741FS082 and SE2741CS086
+ * example from Pervasive Displays is used
+ * 
+ * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
+            DIP: 1 - ON, 2 - OFF
+ * Display: Pervasive Displays  E2741FS082   
+                                SE2741CS086
+ * Email:podpora@laskakit.cz
+ * Web:laskakit.cz
  */
+
 #include <SPI.h>
 
 #ifdef ESPink_V2
-  #define MISO  -1
-  #define SDA_PIN  23
+  #define SDA_PIN   23
   #define SCL_PIN   18
   #define CS_PIN    5
   #define DC_PIN    17 
-  #define RESET_PIN   16  
+  #define RESET_PIN 16  
   #define BUSY_PIN  4 
-  #define POWER 2
+  #define POWER     2
 #else ESPink_V3
-  #define MISO  -1
-  #define SDA_PIN  11
+  #define SDA_PIN   11
   #define SCL_PIN   12
   #define CS_PIN    10
   #define DC_PIN    48 
-  #define RESET_PIN   45  
+  #define RESET_PIN 45  
   #define BUSY_PIN  36 
-  #define POWER 47
+  #define POWER     47
 #endif
 
 #define GPIO_PIN_SET   1
