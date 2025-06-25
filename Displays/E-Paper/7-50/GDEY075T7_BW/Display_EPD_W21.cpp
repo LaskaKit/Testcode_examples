@@ -378,7 +378,7 @@ void EPD_Init_180(void)
 
   EPD_W21_WriteCMD(0x01);     //POWER SETTING
   EPD_W21_WriteDATA (0x07);
-  EPD_W21_WriteDATA (0x17);    // changed from 0x07 //VGH=20V,VGL=-20V
+  EPD_W21_WriteDATA (0x17);    // changed from 0x07 //VGH=20V,VGL=-20V changed power setting, fixing back being gray on some panels
   EPD_W21_WriteDATA (0x3f);   //VDH=15V
   EPD_W21_WriteDATA (0x3f);   //VDL=-15V
 
