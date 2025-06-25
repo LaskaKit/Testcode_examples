@@ -11,6 +11,9 @@
 
 #include <SPI.h>
 
+//#define ESPink_V2
+#define ESPink_V3
+
 #ifdef ESPink_V2
   #define SDA_PIN   23
   #define SCL_PIN   18
