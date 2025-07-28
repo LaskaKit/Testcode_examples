@@ -1,10 +1,10 @@
-/* Display test for Pervasive Displays E2741FS082 and SE2741CS086
+/* Display test for Pervasive Displays E2741FS081 and E2741CS0B2
  * example from Pervasive Displays is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
             DIP: 1 - ON, 2 - OFF
- * Display: Pervasive Displays  E2741FS082   
-                                SE2741CS086
+ * Display: Pervasive Displays  E2741FS081  https://www.laskakit.cz/pervasive-displays-e2741fs081-7-4--800x480-epaper-cerveny-displej/
+                                E2741CS0B2 https://www.laskakit.cz/pervasive-displays-e2741cs0b2-7-4--800x480-epaper-displej/
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
  */
@@ -28,7 +28,7 @@
   #define CS_PIN    10
   #define DC_PIN    48 
   #define RESET_PIN 45  
-  #define BUSY_PIN  36 
+  #define BUSY_PIN  38 
   #define POWER     47
 #endif
 

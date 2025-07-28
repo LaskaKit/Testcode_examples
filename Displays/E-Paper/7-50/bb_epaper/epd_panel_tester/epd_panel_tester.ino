@@ -40,7 +40,7 @@ int iDataTime, iOpTime;
 #define CLK_PIN   12
 #define DC_PIN    48 
 #define RESET_PIN 45  
-#define BUSY_PIN  36 
+#define BUSY_PIN  38 
 #define POWER_PIN 47
 #define BUTTON1 1
 #define BUTTON2 3

@@ -20,27 +20,13 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-//#define ESPink_V2     //for version v2.6 and earlier
-#define ESPink_V3     //for version v3.0 and above
-
-#ifdef ESPink_V2
-  //MOSI/SDI    23
-  //CLK/SCK     18
-  //SS/CS       5
-  #define DC    17 
-  #define RST   16  
-  #define BUSY  4 
-  #define POWER 2
-#else ESPink_V3
-  //MOSI/SDI    11
-  //CLK/SCK     12
-  //SS/CS       10
-  #define DC    48 
-  #define RST   45  
-  #define BUSY  36 
-  #define POWER 47
-#endif
-
+//MOSI/SDI    11
+//CLK/SCK     12
+//SS/CS       10
+#define DC    48 
+#define RST   45  
+#define BUSY  38 
+#define POWER 47
 
 GxEPD2_BW<GxEPD2_426_GDEQ0426T82, GxEPD2_426_GDEQ0426T82::HEIGHT> display(GxEPD2_426_GDEQ0426T82(SS, DC, RST, BUSY)); // GDEQ0426T82 480x800, SSD1677 (P426010-MF1-A)
 

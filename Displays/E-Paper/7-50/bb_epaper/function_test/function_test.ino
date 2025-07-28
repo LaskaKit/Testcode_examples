@@ -33,7 +33,7 @@ BBEPAPER epd(EP75_800x480);
 #define CLK_PIN   12
 #define DC_PIN    48 
 #define RESET_PIN 45  
-#define BUSY_PIN  36 
+#define BUSY_PIN  38 
 #define POWER_PIN 47
 #endif
 

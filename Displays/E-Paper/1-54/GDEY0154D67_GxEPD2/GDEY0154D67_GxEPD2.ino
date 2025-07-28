@@ -3,7 +3,7 @@
  * example from GxEPD2 library is used
  * 
  * Board:   LaskaKit ESPink ESP32 e-Paper   https://www.laskakit.cz/laskakit-espink-esp32-e-paper-pcb-antenna/
- * Display: Good Display GDEY0154D67         
+ * Display: Good Display GDEY0154D67        https://www.laskakit.cz/good-display-gdey0154d67-1-54--200x200-epaper-displej/
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
