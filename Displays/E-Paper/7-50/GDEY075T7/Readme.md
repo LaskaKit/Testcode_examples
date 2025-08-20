@@ -1,4 +1,4 @@
-### For library GxEPD2 need to koment power setting, owervise picture can be shady
+###  For the GxEPD2 library, the power setting section should be commented out — otherwise the image may appear distorted or faded.
 <code>
 // same POWER SETTING as from OTP
 _writeCommand(0x01); // POWER SETTING
