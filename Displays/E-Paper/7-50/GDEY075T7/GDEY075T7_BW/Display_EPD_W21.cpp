@@ -20,11 +20,12 @@ void EPD_Init(void)
   EPD_W21_RST_1;
   delay(10); //At least 10ms delay 
 
-  EPD_W21_WriteCMD(0x01);     //POWER SETTING
-  EPD_W21_WriteDATA (0x07);
-  EPD_W21_WriteDATA (0x17);    // changed from 0x07 //VGH=20V,VGL=-20V
-  EPD_W21_WriteDATA (0x3f);   //VDH=15V
-  EPD_W21_WriteDATA (0x3f);   //VDL=-15V
+  // comented to fix shading issue
+  // EPD_W21_WriteCMD(0x01);     //POWER SETTING
+  // EPD_W21_WriteDATA (0x07);
+  // EPD_W21_WriteDATA (0x07);    // VGH=20V,VGL=-20V
+  // EPD_W21_WriteDATA (0x3f);   //VDH=15V
+  // EPD_W21_WriteDATA (0x3f);   //VDL=-15V
 
   //Enhanced display drive(Add 0x06 command)
   EPD_W21_WriteCMD(0x06);     //Booster Soft Start 
@@ -376,11 +377,12 @@ void EPD_Init_180(void)
   EPD_W21_RST_1;
   delay(10); //At least 10ms delay 
 
-  EPD_W21_WriteCMD(0x01);     //POWER SETTING
-  EPD_W21_WriteDATA (0x07);
-  EPD_W21_WriteDATA (0x17);    // changed from 0x07 //VGH=20V,VGL=-20V changed power setting, fixing back being gray on some panels
-  EPD_W21_WriteDATA (0x3f);   //VDH=15V
-  EPD_W21_WriteDATA (0x3f);   //VDL=-15V
+// comented to fix shading issue
+  // EPD_W21_WriteCMD(0x01);     //POWER SETTING
+  // EPD_W21_WriteDATA (0x07);
+  // EPD_W21_WriteDATA (0x07);     //VGH=20V,VGL=-20V
+  // EPD_W21_WriteDATA (0x3f);   //VDH=15V
+  // EPD_W21_WriteDATA (0x3f);   //VDL=-15V
 
   //Enhanced display drive(Add 0x06 command)
   EPD_W21_WriteCMD(0x06);     //Booster Soft Start 

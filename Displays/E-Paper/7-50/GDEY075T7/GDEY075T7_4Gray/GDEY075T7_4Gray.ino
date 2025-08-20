@@ -188,11 +188,12 @@ void EPD_init(void)
   
     EPD_W21_Init(); //Electronic paper IC reset
 
-    EPD_W21_WriteCMD(0x01);     //POWER SETTING
-    EPD_W21_WriteDATA (0x07);
-    EPD_W21_WriteDATA (0x07);    //VGH=20V,VGL=-20V
-    EPD_W21_WriteDATA (0x3f);   //VDH=15V
-    EPD_W21_WriteDATA (0x3f);   //VDL=-15V
+  // comented to fix shading issue
+    // EPD_W21_WriteCMD(0x01);     //POWER SETTING
+    // EPD_W21_WriteDATA (0x07);
+    // EPD_W21_WriteDATA (0x07);    //VGH=20V,VGL=-20V
+    // EPD_W21_WriteDATA (0x3f);   //VDH=15V
+    // EPD_W21_WriteDATA (0x3f);   //VDL=-15V
 
     //Enhanced display drive(Add 0x06 command)
     EPD_W21_WriteCMD(0x06);     //Booster Soft Start 
@@ -293,11 +294,12 @@ void EPD_init_4Gray(void)
   
     EPD_W21_Init();   
 
-    EPD_W21_WriteCMD(0x01);     //POWER SETTING
-    EPD_W21_WriteDATA (0x07);
-    EPD_W21_WriteDATA (0x17);   
-    EPD_W21_WriteDATA (0x3f);   
-    EPD_W21_WriteDATA (0x3f); 
+  // comented to fix shading issue
+    // EPD_W21_WriteCMD(0x01);     //POWER SETTING
+    // EPD_W21_WriteDATA (0x07);
+    // EPD_W21_WriteDATA (0x17);   
+    // EPD_W21_WriteDATA (0x3f);   
+    // EPD_W21_WriteDATA (0x3f); 
 
     //Enhanced display drive(Add 0x06 command)
     EPD_W21_WriteCMD(0x06);     //Booster Soft Start 
