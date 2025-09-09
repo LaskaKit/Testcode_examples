@@ -36,7 +36,7 @@
   //SS/CS       10
   #define DC    48 
   #define RST   45  
-  #define BUSY  36 
+  #define BUSY  38 
   #define POWER 47
 #endif
 
@@ -52,8 +52,8 @@ void setup()
   delay(100);
 
 // turn on power to display
-  pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
+  pinMode(POWER, OUTPUT);
+  digitalWrite(POWER, HIGH);   // turn the LED on (HIGH is the voltage level)
   Serial.println("Display power ON");
   delay(1000);   
   
