@@ -3,19 +3,19 @@
 //#include "food.h"
 
 //IO settings
-int EPD_W21_SDA = 4; 
-int EPD_W21_SCL =0;
-int EPD_W21_CS_S2 = 2; 
-int EPD_W21_CS_M1 = 15; 
-int EPD_W21_RST_M2 = 13; 
-int EPD_W21_RST_M1 = 12; 
-int EPD_W21_DC_M2 = 14; 
-int EPD_W21_DC_M1 = 27; 
-int EPD_W21_CS_M2 = 33; 
-int EPD_W21_CS_S1 = 32;
+int EPD_W21_SDA = 11; 
+int EPD_W21_SCL =12;
+int EPD_W21_CS_S2 = 41; 
+int EPD_W21_CS_M1 = 10; 
+int EPD_W21_RST_M2 = 39; 
+int EPD_W21_RST_M1 = 7; 
+int EPD_W21_DC_M2 = 6; 
+int EPD_W21_DC_M1 = 15; 
+int EPD_W21_CS_M2 = 48; 
+int EPD_W21_CS_S1 = 18;
 
 //BUSY 
-int EPD_W21_BUSY_M1=39;
+int EPD_W21_BUSY_M1=8;
 
 //CS
 #define EPD_W21_CS_M1_0  ( digitalWrite(EPD_W21_CS_M1,LOW)) 
