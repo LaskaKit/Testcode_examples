@@ -142,28 +142,28 @@ void loop() {
 		EPD_init(); //Full screen update initialization.
 		PIC_display(gImage_1);//To Display one image using full screen update.
 		EPD_sleep();//Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-		delay(5000); //Delay for 5s.
-	#if 0//Demonstration of Display 4 colors, to enable this feature, please change 0 to 1.
+		delay(2000); //Delay for 5s.
+	#if 1//Demonstration of Display 4 colors, to enable this feature, please change 0 to 1.
 	 /************Full display*******************/
 		EPD_init(); //Full screen update initialization.
 		Display_All_Black();//To Display one image using full screen update.
 		EPD_sleep();//Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-		delay(5000); //Delay for 5s.
+		delay(2000); //Delay for 5s.
 		
 		EPD_init(); //Full screen update initialization.
 		Display_All_Yellow();//To Display one image using full screen update.
 		EPD_sleep();//Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-		delay(5000); //Delay for 5s.
+		delay(2000); //Delay for 5s.
 
 		EPD_init(); //Full screen update initialization.
 		Display_All_Red();//To Display one image using full screen update.
 		EPD_sleep();//Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-		delay(5000); //Delay for 5s.				
+		delay(2000); //Delay for 5s.				
 	#endif		
 		EPD_init(); //Full screen update initialization.
 		Display_All_White(); //Clear screen function.
 		EPD_sleep();//Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen..	
-	  delay(5000); //Delay for 5s.
+	  delay(2000); //Delay for 5s.
 #endif			
 		while(1);	// The program stops here		
 
