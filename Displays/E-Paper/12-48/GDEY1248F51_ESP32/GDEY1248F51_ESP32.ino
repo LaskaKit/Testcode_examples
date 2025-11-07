@@ -520,6 +520,7 @@ void EPD_init(void)
 	
 	EPD_W21_WriteCMD_ALL(0xe0);
 	EPD_W21_WriteDATA_ALL(0x03);
+	delay(20);  // <- necessary
 	
 	EPD_W21_WriteCMD_ALL(0xA5);
 	lcd_chkstatus_M1();
