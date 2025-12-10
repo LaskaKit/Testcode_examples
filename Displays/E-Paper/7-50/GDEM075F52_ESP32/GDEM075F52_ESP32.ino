@@ -30,7 +30,6 @@ void setup() {
   //SPI
   SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0)); 
   SPI.begin (SCK, MISO, MOSI, CS);  
-}.begin ();  
 }
 //Tips//
 /*
