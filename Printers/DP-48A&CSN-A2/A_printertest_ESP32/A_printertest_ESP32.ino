@@ -1,9 +1,11 @@
 /* Test code for DP-48A and CSN-A2 58mm thermal printers
  * Demonstrates a few text styles & layouts, bitmap printing, etc.
  * 
- * Board:   LaskaKit ESP32-DEVKit         https://www.laskakit.cz/laskakit-esp32-devkit/
+ * Board:   LaskaKit ESP32-DEVKit:        https://www.laskakit.cz/laskakit-esp32-devkit/
+        or: LaskaKit ESP32-S3-DEVKit:     https://www.laskakit.cz/laskakit-esp32-s3-devkit/
  * Printer: DP-48A 58mm thermal printer:  https://www.laskakit.cz/dp-48a-58mm-modul-termotiskarny/
  *      or: CSN-A2 58mm thermal printer:  https://www.laskakit.cz/csn-a2-58mm-termotiskarna-do-panelu--uart/
+ *      or: QR23 58mm thermal printer:    https://www.laskakit.cz/
  * 
  * Library example used from Adafruit for thermal printers: https://github.com/adafruit/Adafruit-Thermal-Printer-Library
  *
@@ -16,8 +18,13 @@
 #include "adaqrcode.h"
 
 #include <HardwareSerial.h>
-#define TX_PIN 17 // Arduino transmit  YELLOW WIRE  labeled RX on printer
-#define RX_PIN 16 // Arduino receive   GREEN WIRE   labeled TX on printer
+// LaskaKit ESP32-DEVKit
+//#define TX_PIN 17      // transmit  YELLOW WIRE  labeled RX on printer
+//#define RX_PIN 16     // receive   GREEN WIRE   labeled TX on printer
+
+// LaskaKit ESP32-S3-DEVKit
+#define TX_PIN 2      // transmit Yellow wire SCL pin on µŠup, labeled RX on printer
+#define RX_PIN 42     // receive  Blue wire SDA pin on µŠup, labeled TX on printer
 
 // Using hardware serial:
 HardwareSerial SerialPort(1);
