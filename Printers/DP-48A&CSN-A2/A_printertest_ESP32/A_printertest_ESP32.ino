@@ -1,11 +1,11 @@
 /* Test code for DP-48A and CSN-A2 58mm thermal printers
  * Demonstrates a few text styles & layouts, bitmap printing, etc.
  * 
- * Board:   LaskaKit ESP32-DEVKit:        https://www.laskakit.cz/laskakit-esp32-devkit/
-        or: LaskaKit ESP32-S3-DEVKit:     https://www.laskakit.cz/laskakit-esp32-s3-devkit/
- * Printer: DP-48A 58mm thermal printer:  https://www.laskakit.cz/dp-48a-58mm-modul-termotiskarny/
- *      or: CSN-A2 58mm thermal printer:  https://www.laskakit.cz/csn-a2-58mm-termotiskarna-do-panelu--uart/
- *      or: QR23 58mm thermal printer:    https://www.laskakit.cz/
+ * Board:   LaskaKit ESP32-DEVKit:          https://www.laskakit.cz/laskakit-esp32-devkit/
+ *      or: LaskaKit ESP32-S3-DEVKit:       https://www.laskakit.cz/laskakit-esp32-s3-devkit/
+ * Printer: DP-48A 58mm thermal printer:    https://www.laskakit.cz/dp-48a-58mm-modul-termotiskarny/
+ *      or: CSN-A2 58mm thermal printer:    https://www.laskakit.cz/csn-a2-58mm-termotiskarna-do-panelu--uart/
+ *      or: HS-QR23 58mm thermal printer:   https://www.laskakit.cz/hspos-printer-hs-qr23-58mm-modul-termotiskarny--uart-usb/
  * 
  * Library example used from Adafruit for thermal printers: https://github.com/adafruit/Adafruit-Thermal-Printer-Library
  *
