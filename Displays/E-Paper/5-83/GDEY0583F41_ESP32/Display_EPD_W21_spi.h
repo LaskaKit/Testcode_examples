@@ -3,8 +3,8 @@
 #include "Arduino.h"
 
 //board settings
-#define ESPink_V2     //for version v2.6 and earlier
-//#define ESPink_V3     //for version v3.0 and above
+//#define ESPink_V2     //for version v2.6 and earlier
+#define ESPink_V3     //for version v3.0 and above
 
 #ifdef ESPink_V2
   #define MISO  -1
