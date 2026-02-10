@@ -22,7 +22,8 @@
 
 #define SLEEP_SEC 15         // Measurement interval (seconds)
 
-GxEPD2_BW < GxEPD2_1330_GDEM133T91, GxEPD2_1330_GDEM133T91::HEIGHT / 2> display(GxEPD2_1330_GDEM133T91(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEM133T91 960x680, SSD1677, (FPC-7701 REV.B)
+//for ESPInk v3.x
+GxEPD2_BW < GxEPD2_1330_GDEM133T91, GxEPD2_1330_GDEM133T91::HEIGHT / 2> display(GxEPD2_1330_GDEM133T91(/*CS=5*/ 10, /*DC=*/ 48, /*RST=*/ 1645, /*BUSY=*/ 38)); // GDEM133T91 960x680, SSD1677, (FPC-7701 REV.B)
 
 void setup()
 {
@@ -32,8 +33,8 @@ void setup()
   delay(100);
 
 // turn on power to display
-  pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
+  pinMode(47, OUTPUT);
+  digitalWrite(47, HIGH);   // turn the LED on (HIGH is the voltage level)
   Serial.println("Display power ON");
   delay(1000);   
   
