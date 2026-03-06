@@ -26,10 +26,11 @@
 #include <Fonts/FreeMonoBold9pt7b.h>
 #include "bitmaps/Bitmaps4g800x480.h" // 7.5"  b/w
 
-//#define ESPink_V2     //for version v2.6 and older
-#define ESPink_V3     //for version v3.0 and above
+//#define ESPink_V2     // for version v2.6 and older
+#define ESPink_V3      // for version v3.0 and above
 
-#ifdef ESPink_V2
+#if defined(ESPink_V2)
+
   //MOSI/SDI    23
   //CLK/SCK     18
   //SS/CS       5
@@ -37,7 +38,9 @@
   #define RST   16  
   #define BUSY  4 
   #define POWER 2
-#else ESPink_V3
+
+#elif defined(ESPink_V3)
+
   //MOSI/SDI    11
   //CLK/SCK     12
   //SS/CS       10
@@ -45,6 +48,7 @@
   #define RST   45  
   #define BUSY  38 
   #define POWER 47
+
 #endif
 
 GxEPD2_4G_4G<GxEPD2_750_GDEY075T7, GxEPD2_750_GDEY075T7::HEIGHT / 2> display(GxEPD2_750_GDEY075T7(/*CS=5*/ SS, /*DC=*/ DC, /*RST=*/ RST, /*BUSY=*/ BUSY)); // GDEY075T7  800x480, UC8179 (GD7965), (FPC-C001 20.08.20)
