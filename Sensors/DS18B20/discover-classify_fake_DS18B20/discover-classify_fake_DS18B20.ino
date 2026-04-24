@@ -52,8 +52,8 @@
 // https://github.com/PaulStoffregen/OneWire
 #include "OneWire.h"
 
-#define pin_onewire 7
-#define pin_LED 13
+#define pin_onewire 22
+#define pin_LED 2
 #define Comm Serial
 
 const int ms750 = 750;
@@ -95,8 +95,8 @@ bool read_scratchpad(uint8_t *addr, uint8_t *buff9) {
 void setup() {
   Comm.begin(115200);
 
-  digitalWrite(pin_LED, HIGH);
   pinMode(pin_LED, OUTPUT);
+  digitalWrite(pin_LED, HIGH);
 
   ds = new OneWire(pin_onewire);
   
@@ -112,7 +112,7 @@ void setup() {
     Comm.print(F("\n--- # "));
     Comm.println(&file[i]);
   }
-  digitalWrite(pin_LED, LOW);
+  //digitalWrite(pin_LED, LOW);
   Comm.println(F("This is the November 2024 version of discover-classify_fake_DS18B20."));
   Comm.println(F("  We are in a game of whack-a-mole. At least six new clones have"));
   Comm.println(F("  appeared on the market between 2019 and 2024. Please consider"));
@@ -154,7 +154,7 @@ void loop() {
     while ((!Comm.available()) && (millis()-start < 1000))
       delay(50);
 
-    digitalWrite(pin_LED, digitalRead(pin_LED) == HIGH ? LOW : HIGH);
+    //digitalWrite(pin_LED, digitalRead(pin_LED) == HIGH ? LOW : HIGH);
     
     if (Comm.available()) {
       int select = Comm.read();
