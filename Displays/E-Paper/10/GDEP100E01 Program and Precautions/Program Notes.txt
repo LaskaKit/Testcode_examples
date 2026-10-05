@@ -1,0 +1,11 @@
+The screen uses a T2001 TCON driver, which can only receive 8bpp arrays. The color mapping is as follows:
+0x0 ----- Black
+0xF8 ---- White
+0x20 ---- Yellow
+0x40 ---- Red
+0x10 ---- Blue
+0x30 ---- Green
+
+The program provided by our company is developed based on the Arduino IDE, with the MCU: ESP32S3 Dev Module. When burning the program, please ensure the following configuration:
+Tools -> USB CDC On Boot set to Enabled.
+PSRAM set to OPI PSRAM.

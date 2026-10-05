@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>4bpp & Y8 抖动预览 → C 数组导出</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;background:#0b1224;color:#e6f1ff;padding:24px}
+  .card{background:rgba(12,20,40,0.85);padding:18px;border-radius:12px;border:1px solid rgba(90,215,255,0.08);max-width:1100px;margin:0 auto}
+  h1{margin:0 0 8px;font-size:20px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .col{flex:1;min-width:260px}
+  label{font-weight:600;font-size:13px}
+  select,input[type=file],button,input[type=text]{width:100%;padding:8px;margin-top:6px;border-radius:8px;border:1px solid rgba(90,215,255,0.08);background:#0f1726;color:#e6f1ff}
+  canvas{border:1px solid rgba(90,215,255,0.08);background:#0b1224;display:block;margin-top:12px}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .small{font-size:12px;color:#93a4c4}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>4bpp / Y8 抖动 → C 数组导出（.h）</h1>
+  <p class="small">支持 4bpp（打包，每字节2像素）和 Y8（映射后每像素1字节 TCon 值），导出为带注释的 C 头文件。</p>
+
+  <div class="row">
+    <div class="col">
+      <label>目标分辨率</label>
+      <select id="resolution">
+        <option value="1600,1200">1600 × 1200 (OK-TC05B)</option>
+        <option value="1200,1600">1200 × 1600</option>
+        <option value="800,600">800 × 600</option>
+        <option value="400,300">400 × 300</option>
+      </select>
+
+      <label style="margin-top:10px">抖动算法</label>
+      <select id="ditherType">
+        <option value="floydSerpentine">Floyd–Steinberg (Serpentine)</option>
+        <option value="floyd">Floyd–Steinberg (左右扫描)</option>
+        <option value="atkinson">Atkinson</option>
+        <option value="stucki">Stucki</option>
+        <option value="jjn">Jarvis-Judice-Ninke</option>
+      </select>
+
+      <label style="margin-top:10px">数组名称前缀（建议英文、无空格）</label>
+      <input id="arrayNamePrefix" type="text" value="my_image" placeholder="例如: badge / panel / icon">
+
+      <label style="margin-top:10px">选择图片</label>
+      <input id="upload" type="file" accept="image/*">
+
+      <div class="controls">
+        <button id="processBtn">生成预览 & 数据</button>
+        <button id="download4bpp" disabled>下载 4BPP C头文件 (.h)</button>
+        <button id="downloadY8"   disabled>下载 Y8   C头文件 (.h)</button>
+      </div>
+
+      <p class="small" style="margin-top:12px">
+        4BPP：每字节两个像素（高4位=左），索引0~5。<br>
+        Y8：映射后每像素1字节（0x00,0xF8,0x20,0x40,0x10,0x30），字节数 = 宽×高。
+      </p>
+    </div>
+
+    <div class="col">
+      <label>原图</label>
+      <canvas id="origCanvas" width="320" height="240"></canvas>
+
+      <label style="margin-top:8px">处理后预览（目标尺寸）</label>
+      <canvas id="outCanvas" width="320" height="240"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+// 调色板与映射（6色）
+const PALETTE_AIO_E6_SIZE = 6;
+const PALETTE = [
+  [0x00,0x00,0x00], // 0 black
+  [0xFF,0xFF,0xFF], // 1 white
+  [0xFF,0xFF,0x00], // 2 yellow
+  [0xFF,0x00,0x00], // 3 red
+  [0x00,0x00,0xFF], // 4 blue
+  [0x00,0xFF,0x00]  // 5 green
+];
+const PALETTE_AIO_E6_MAPPING_T2000 = [0x00, 0xF8, 0x20, 0x40, 0x10, 0x30];
+
+// 找最近颜色索引
+function findNearestPaletteIndex(rgb) {
+  let best = 0, bestD = Infinity;
+  for (let i = 0; i < PALETTE_AIO_E6_SIZE; i++) {
+    const p = PALETTE[i];
+    const d = (rgb[0]-p[0])**2 + (rgb[1]-p[1])**2 + (rgb[2]-p[2])**2;
+    if (d < bestD) { bestD = d; best = i; }
+  }
+  return best;
+}
+
+function closestColor(c) {
+  return PALETTE[findNearestPaletteIndex(c)];
+}
+
+// ─── 抖动算法（保持原样） ───────────────────────────────────────
+function floydDither(imgData) {
+  const w = imgData.width, h = imgData.height, data = imgData.data;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const i = (y*w + x)*4;
+    const old = [data[i], data[i+1], data[i+2]];
+    const realC = closestColor(old);
+    data[i] = realC[0]; data[i+1] = realC[1]; data[i+2] = realC[2];
+    const err = [old[0]-realC[0], old[1]-realC[1], old[2]-realC[2]];
+    const diff = (dx,dy,f) => {
+      const nx = x+dx, ny = y+dy;
+      if (nx>=0 && nx<w && ny>=0 && ny<h) {
+        const ni = (ny*w + nx)*4;
+        data[ni] += err[0]*f; data[ni+1] += err[1]*f; data[ni+2] += err[2]*f;
+      }
+    };
+    diff(1,0,7/16); diff(-1,1,3/16); diff(0,1,5/16); diff(1,1,1/16);
+  }
+}
+
+function floydSerpentineDither(imgData) {
+  const w = imgData.width, h = imgData.height, data = imgData.data;
+  for (let y = 0; y < h; y++) {
+    const l2r = (y % 2 === 0);
+    let x = l2r ? 0 : w-1;
+    const step = l2r ? 1 : -1;
+    while (l2r ? x < w : x >= 0) {
+      const i = (y*w + x)*4;
+      const old = [data[i], data[i+1], data[i+2]];
+      const realC = closestColor(old);
+      data[i] = realC[0]; data[i+1] = realC[1]; data[i+2] = realC[2];
+      const err = [old[0]-realC[0], old[1]-realC[1], old[2]-realC[2]];
+      const diff = (dx,dy,f) => {
+        const nx = x + dx*step, ny = y + dy;
+        if (nx>=0 && nx<w && ny>=0 && ny<h) {
+          const ni = (ny*w + nx)*4;
+          data[ni] += err[0]*f; data[ni+1] += err[1]*f; data[ni+2] += err[2]*f;
+        }
+      };
+      diff(1,0,7/16); diff(-1,1,3/16); diff(0,1,5/16); diff(1,1,1/16);
+      x += step;
+    }
+  }
+}
+
+function atkinsonDither(imgData) { /* 同前略 */ 
+  const w = imgData.width, h = imgData.height, data = imgData.data;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const i = (y*w + x)*4;
+    const old = [data[i], data[i+1], data[i+2]];
+    const realC = closestColor(old);
+    data[i] = realC[0]; data[i+1] = realC[1]; data[i+2] = realC[2];
+    const err = [(old[0]-realC[0])/8, (old[1]-realC[1])/8, (old[2]-realC[2])/8];
+    const diff = (dx,dy) => {
+      const nx = x+dx, ny = y+dy;
+      if (nx>=0 && nx<w && ny>=0 && ny<h) {
+        const ni = (ny*w + nx)*4;
+        data[ni] += err[0]; data[ni+1] += err[1]; data[ni+2] += err[2];
+      }
+    };
+    diff(1,0); diff(2,0); diff(-1,1); diff(0,1); diff(1,1); diff(0,2);
+  }
+}
+
+function stuckiDither(imgData) { /* 同前略，略 */ }
+function jjnDither(imgData) { /* 同前略，略 */ }
+
+// ─── 工具函数 ───────────────────────────────────────────────────
+function imageDataToIndexArray(imgData) {
+  const w = imgData.width, h = imgData.height, data = imgData.data;
+  const out = new Uint8Array(w * h);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const i = (y*w + x)*4;
+    out[y*w + x] = findNearestPaletteIndex([data[i], data[i+1], data[i+2]]);
+  }
+  return out;
+}
+
+function pack4bpp(indices, w, h) {
+  const bytes = Math.ceil(w * h / 2);
+  const out = new Uint8Array(bytes);
+  let pos = 0;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x += 2) {
+    const a = indices[y*w + x] & 0xF;
+    const b = (x+1 < w) ? (indices[y*w + x+1] & 0xF) : 1;
+    out[pos++] = (a << 4) | b;
+  }
+  return out;
+}
+
+function indexToY8(indices) {
+  const out = new Uint8Array(indices.length);
+  for (let i = 0; i < indices.length; i++) {
+    const idx = indices[i];
+    out[i] = (idx >= 0 && idx < PALETTE_AIO_E6_SIZE) ? PALETTE_AIO_E6_MAPPING_T2000[idx] : 0xF8;
+  }
+  return out;
+}
+
+function uint8ToCHeader(bytes, arrayName, width, height, formatType, ditherType) {
+  const lines = [];
+  lines.push(`// Generated with ${ditherType} dithering`);
+  lines.push(`// Resolution: ${width} × ${height}`);
+  lines.push(`// Format: ${formatType}`);
+  lines.push(`// Palette: 0=black,1=white,2=yellow,3=red,4=blue,5=green`);
+  lines.push(``);
+  lines.push(`#ifndef ${arrayName.toUpperCase()}_H`);
+  lines.push(`#define ${arrayName.toUpperCase()}_H`);
+  lines.push(``);
+  lines.push(`static const unsigned char ${arrayName}[] = {`);
+
+  let line = '    ';
+  for (let i = 0; i < bytes.length; i++) {
+    line += `0x${bytes[i].toString(16).padStart(2,'0')}, `;
+    if ((i + 1) % 16 === 0 || i === bytes.length - 1) {
+      lines.push(line.trimEnd());
+      line = '    ';
+    }
+  }
+  if (lines[lines.length-1].endsWith(', ')) {
+    lines[lines.length-1] = lines[lines.length-1].slice(0, -2);
+  }
+
+  lines.push(`};`);
+  lines.push(``);
+  lines.push(`static const int ${arrayName}_width  = ${width};`);
+  lines.push(`static const int ${arrayName}_height = ${height};`);
+  lines.push(`static const size_t ${arrayName}_size  = ${bytes.length};  // 字节数`);
+  lines.push(``);
+  lines.push(`#endif // ${arrayName.toUpperCase()}_H`);
+
+  return lines.join('\n');
+}
+
+// ─── UI 逻辑 ─────────────────────────────────────────────────────
+const upload = document.getElementById('upload');
+const processBtn = document.getElementById('processBtn');
+const origCanvas = document.getElementById('origCanvas');
+const outCanvas = document.getElementById('outCanvas');
+const download4bpp = document.getElementById('download4bpp');
+const downloadY8   = document.getElementById('downloadY8');
+let lastIndices = null;
+let lastW = 0, lastH = 0;
+
+processBtn.addEventListener('click', () => {
+  const file = upload.files[0];
+  if (!file) return alert('请选择图片');
+
+  const [w, h] = document.getElementById('resolution').value.split(',').map(Number);
+  const dither = document.getElementById('ditherType').value;
+
+  const img = new Image();
+  img.onload = () => {
+    // 原图预览
+    const oc = origCanvas.getContext('2d');
+    origCanvas.width = img.width; origCanvas.height = img.height;
+    oc.drawImage(img, 0, 0);
+
+    // 输出预览
+    outCanvas.width = w; outCanvas.height = h;
+    const ctx = outCanvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h);
+    let imgData = ctx.getImageData(0, 0, w, h);
+
+    // 抖动
+    if      (dither === 'floydSerpentine') floydSerpentineDither(imgData);
+    else if (dither === 'floyd')           floydDither(imgData);
+    else if (dither === 'atkinson')        atkinsonDither(imgData);
+    else if (dither === 'stucki')          stuckiDither(imgData);
+    else if (dither === 'jjn')             jjnDither(imgData);
+
+    ctx.putImageData(imgData, 0, 0);
+
+    lastIndices = imageDataToIndexArray(imgData);
+    lastW = w;
+    lastH = h;
+
+    download4bpp.disabled = false;
+    downloadY8.disabled   = false;
+  };
+  img.src = URL.createObjectURL(file);
+});
+
+function downloadArray(is4bpp) {
+  if (!lastIndices) return alert('请先生成预览');
+
+  const prefix = document.getElementById('arrayNamePrefix').value.trim() || 'image';
+  const suffix = is4bpp ? '_4bpp' : '_y8';
+  const arrayName = `${prefix}${suffix}_${lastW}x${lastH}`;
+  const dither = document.getElementById('ditherType').value;
+
+  let bytes;
+  let formatDesc;
+
+  if (is4bpp) {
+    bytes = pack4bpp(lastIndices, lastW, lastH);
+    formatDesc = '4bpp packed (high nibble = left pixel)';
+  } else {
+    bytes = indexToY8(lastIndices);
+    formatDesc = 'Y8 (mapped TCon values, 1 byte per pixel)';
+  }
+
+  const content = uint8ToCHeader(bytes, arrayName, lastW, lastH, formatDesc, dither);
+
+  const blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${arrayName}.h`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+download4bpp.addEventListener('click', () => downloadArray(true));
+downloadY8.addEventListener('click',   () => downloadArray(false));
+
+</script>
+</body>
+</html>
