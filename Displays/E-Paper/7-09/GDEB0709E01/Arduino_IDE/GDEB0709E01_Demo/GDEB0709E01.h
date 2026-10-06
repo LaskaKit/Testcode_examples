@@ -1,0 +1,24 @@
+#ifndef GDEB0709E01_H
+#define GDEB0709E01_H
+
+#include "DEV_Config.h"
+
+#define GDEB0709E01_WIDTH        1200
+#define GDEB0709E01_HEIGHT       1600
+#define GDEB0709E01_BYTES_PER_ROW 600
+#define GDEB0709E01_SIDE_BYTES    300
+#define GDEB0709E01_IMAGE_SIZE    (GDEB0709E01_WIDTH * GDEB0709E01_HEIGHT / 2)
+
+#define GDEB0709E01_BLACK   0x0
+#define GDEB0709E01_WHITE   0x1
+#define GDEB0709E01_YELLOW  0x2
+#define GDEB0709E01_RED     0x3
+#define GDEB0709E01_BLUE    0x5
+#define GDEB0709E01_GREEN   0x6
+
+void GDEB0709E01_Init(void);
+void GDEB0709E01_Clear(uint8_t color);
+void GDEB0709E01_Display(const uint8_t *image);
+void GDEB0709E01_Sleep(void);
+
+#endif
