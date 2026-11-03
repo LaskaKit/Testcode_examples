@@ -5,8 +5,8 @@
 // ---------------------------------------------------------------
 // Board settings - choose exactly one
 // ---------------------------------------------------------------
-#define BOARD_GD_ESP32_133C02     // Good Display ESP32-133C02 (ESP32-S3)
-//#define BOARD_LASKAKIT_ADAPTER  // LaskaKit E6 adapter - CHECK THE PINS BELOW!
+//#define BOARD_GD_ESP32_133C02     // Good Display ESP32-133C02 (ESP32-S3)
+#define BOARD_LASKAKIT_ADAPTER  // LaskaKit E6 adapter - CHECK THE PINS BELOW!
 
 #if defined(BOARD_GD_ESP32_133C02)
   // Pins taken from Good Display pindefine.h (GDEP133C02 example 2026-04-20)
@@ -20,16 +20,16 @@
   #define POWER  45   // LOAD_SW - panel power switch, HIGH = on
   #define DC     -1   // not used: the first byte after CS falls is the command
 #elif defined(BOARD_LASKAKIT_ADAPTER)
-  // !!! Placeholder - fill in according to the adapter schematic !!!
-  #define EPD_MISO   -1
-  #define EPD_MOSI   11
-  #define EPD_SCK    12
-  #define CS_M   10
-  #define CS_S   18
-  #define RST    45
-  #define BUSY   38
-  #define POWER  47
-  #define DC     -1
+  // ESP32-S3-WROOM-1-N16 board -> 60pin-Spectra adapter (JP1)
+  #define EPD_SCK    15   // JP1-12 SPI_CLK
+  #define EPD_MOSI   41   // JP1-11 SPI_MOSI0
+  #define EPD_MISO   -1   // JP1-10 SPI_MOSI1 (-1 = not connected)
+  #define CS_M       18   // JP1-5  CSB_M
+  #define CS_S       17   // JP1-6  CSB_S
+  #define RST        6    // JP1-3  RST_N
+  #define BUSY       7    // JP1-4  BUSY_N
+  #define DC         8    // JP1-7  DC/X
+  #define POWER      47   // VSENSOR enable (IO47_USUP) - check!
 #else
   #error "Select a board in Display_EPD_W21_spi.h"
 #endif
