@@ -5,8 +5,8 @@
 // ---------------------------------------------------------------
 // Board settings - choose exactly one
 // ---------------------------------------------------------------
-//#define BOARD_GD_ESP32_133C02     // Good Display ESP32-133C02 (ESP32-S3)
-#define BOARD_LASKAKIT_ADAPTER  // LaskaKit E6 adapter - CHECK THE PINS BELOW!
+#define BOARD_GD_ESP32_133C02     // Good Display ESP32-133C02 (ESP32-S3)
+//#define BOARD_LASKAKIT_ADAPTER  // LaskaKit E6 adapter - CHECK THE PINS BELOW!
 
 #if defined(BOARD_GD_ESP32_133C02)
   // Pins taken from Good Display pindefine.h (GDEP133C02 example 2026-04-20)
