@@ -95,7 +95,7 @@ void loop() {
   }
 #endif
 
-#if 0 // clear to white at the end, change 0 to 1 to enable
+#if 1 // clear to white at the end, change 0 to 1 to enable
   EPD_init();
   Display_All_White();
 #endif
