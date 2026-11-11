@@ -24,11 +24,11 @@
   #define EPD_SCK    15   // JP1-12 SPI_CLK
   #define EPD_MOSI   41   // JP1-11 SPI_MOSI0
   #define EPD_MISO   -1   // JP1-10 SPI_MOSI1 (-1 = not connected)
-  #define CS_M       18   // JP1-5  CSB_M
-  #define CS_S       17   // JP1-6  CSB_S
-  #define RST        6    // JP1-3  RST_N
-  #define BUSY       7    // JP1-4  BUSY_N
   #define DC         8    // JP1-7  DC/X
+  #define CS_S       17   // JP1-6  CSB_S
+  #define CS_M       18   // JP1-5  CSB_M
+  #define BUSY       7    // JP1-4  BUSY_N
+  #define RST        6    // JP1-3  RST_N
   #define POWER      47   // VSENSOR enable (IO47_USUP) - check!
 #else
   #error "Select a board in Display_EPD_W21_spi.h"

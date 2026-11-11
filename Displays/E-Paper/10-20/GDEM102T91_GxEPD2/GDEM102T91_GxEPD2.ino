@@ -39,7 +39,7 @@
   //SS/CS       10
   #define DC    48 
   #define RST   45  
-  #define BUSY  36 
+  #define BUSY  38 
   #define POWER 47
 #endif
 GxEPD2_BW < GxEPD2_1020_GDEM102T91, GxEPD2_1020_GDEM102T91::HEIGHT / 2> display(GxEPD2_1020_GDEM102T91(SS, DC, RST,BUSY)); // GDEM102T91 960x640, SSD1677, (FPC7705 REV.b)
